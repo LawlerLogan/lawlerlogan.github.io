@@ -131,6 +131,9 @@ nav li:first-child{
     .sidebar{
         width: 100%;
     }
+    .quote-section{
+        height: 500px;
+    }
 }
 
 .footer-logo{
