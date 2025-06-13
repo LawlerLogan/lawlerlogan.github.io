@@ -109,7 +109,7 @@ nav li:first-child{
 }
 
 .footer-logo{
-    padding: 10px;
+    padding: 5px 20px;
     width: 300px;
     height: 100%;
     display: flex;
@@ -129,9 +129,8 @@ nav li:first-child{
 }
 
 footer{
-    padding-left: 10px;
     display: flex;
     align-items: center;
     background: #000000;
-    color: #ffffff;
+    box-shadow: -30px 0px 30px rgba(0, 0, 0, 1);
 }
