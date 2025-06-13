@@ -26,9 +26,15 @@ main{
     height: 800px;
     width: 100%;
     font-size: 40px;
-    font-weight: 400;
+    font-weight: 400
 }
 
+.quote-section b{
+    font-weight: 400;
+    font-size: 25px;
+    margin-top: 40px;
+    margin-left: 30%;
+}
 .quote-highlight{
     font-weight: 800;
     color:rgb(200, 19, 49);
