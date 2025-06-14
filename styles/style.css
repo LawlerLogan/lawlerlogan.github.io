@@ -13,12 +13,6 @@ body{
     background: radial-gradient(circle at 100% 100%, rgb(10, 10, 10), rgba(1, 1, 1, 1));
 }
 
-main{
-    padding: 20px;
-    color: #ffffff;
-    flex: 1;
-}
-
 .quote-section{
     display: flex;
     flex-direction: column;

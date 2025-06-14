@@ -46,41 +46,40 @@
             history.replaceState(null, null, window.location.pathname + window.location.search);
         });
     </script>
-    <main>
-        <div class="quote-section">
-            <a>CAPTURE WHAT YOU  <span class="quote-highlight">FEEL</span> NOT WHAT YOU <span class="quote-highlight">SEE</span>.</a>
-            <b>— NIKEN PATEL</b>
-        </div>
+    
+    <div class="quote-section">
+        <a>CAPTURE WHAT YOU  <span class="quote-highlight">FEEL</span> NOT WHAT YOU <span class="quote-highlight">SEE</span>.</a>
+        <b>— NIKEN PATEL</b>
+    </div>
 
-        <section id="gallery"></section>
+    <section id="gallery"></section>
 
-        <div class="container">
-            <h1 class="gallery-title">OUR RECENT WORK</h1>
+    <div class="container">
+        <h1 class="gallery-title">OUR RECENT WORK</h1>
 
-            <div class="img-container">
-                <script>
-                    const imgContainer = document.currentScript.parentElement;
-                    const maxImages = 54;
-                    var lessThan10 = null;
-                    for (let i = 1; i <= maxImages; i++) {
-                        if( i < 10) {
-                            lessThan10 = '0';
-                        } else {
-                            lessThan10 = '';
-                        }
-                        const img = document.createElement('img');
-                        img.src = `imgs/gallery/LAW-${lessThan10}${i}.${'jpg'}`;
-                        img.alt = `Image ${i}`;
-                        img.onerror = function() {
-                            this.remove();
-                        };
-                        imgContainer.appendChild(img);
-                        img.ondragstart = () => {return false;};
+        <div class="img-container">
+            <script>
+                const imgContainer = document.currentScript.parentElement;
+                const maxImages = 54;
+                var lessThan10 = null;
+                for (let i = 1; i <= maxImages; i++) {
+                    if( i < 10) {
+                        lessThan10 = '0';
+                    } else {
+                        lessThan10 = '';
                     }
-                </script>
-            </div>
+                    const img = document.createElement('img');
+                    img.src = `imgs/gallery/LAW-${lessThan10}${i}.${'jpg'}`;
+                    img.alt = `Image ${i}`;
+                    img.onerror = function() {
+                        this.remove();
+                    };
+                    imgContainer.appendChild(img);
+                    img.ondragstart = () => {return false;};
+                }
+            </script>
         </div>
-    </main>
+    </div>
 
     <footer>
         <img class="footer-logo" src="imgs/Lawler_Collective_Icon_White.svg" alt="Lawler Collective LLC Logo" style="width: 100px; height: auto;">
