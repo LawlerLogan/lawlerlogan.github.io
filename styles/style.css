@@ -150,7 +150,7 @@ nav{
     background-color: #000000b0;
     box-shadow: -10px 0px 10px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
-    display: none;
+    display: none !important;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
@@ -163,9 +163,13 @@ nav{
     gap: 0;
 }
 
+.sidebar.open {
+    display: flex !important;
+}
+
 .sidebar li{
     width: 100%;
-    padding: 16px 32px;
+    padding: 25px 40px;
     display: block;
     align-items: flex-start;
     justify-content: flex-start;

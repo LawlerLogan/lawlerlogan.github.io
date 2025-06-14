@@ -14,10 +14,10 @@
     <nav>
         <ul class="sidebar">
             <li onclick=hideSideBar()><a class="button"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#gallery">GALLERY</a></li>
-            <li><a href="#contact">CONTACT</a></li>
+            <li onclick=hideSideBar()><a href="#home">HOME</a></li>
+            <li onclick=hideSideBar()><a href="#about">ABOUT</a></li>
+            <li onclick=hideSideBar()><a href="#gallery">GALLERY</a></li>
+            <li onclick=hideSideBar()><a href="#contact">CONTACT</a></li>
         </ul>
 
         <ul class="nav-header">
@@ -32,11 +32,11 @@
 
     <script>
         function showSideBar() {
-            document.querySelector('.sidebar').style.display = 'flex';
+            document.querySelector('.sidebar').classList.add('open');
             document.body.classList.add('no-scroll');
         }
         function hideSideBar() {
-            document.querySelector('.sidebar').style.display = 'none';
+            document.querySelector('.sidebar').classList.remove('open');
             document.body.classList.remove('no-scroll');
         }
         if (window.location.hash) {
