@@ -5,6 +5,10 @@
     transition: 0.3s all ease-in-out;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body{
     min-height: 100vh;
     font-family: 'Montserrat', sans-serif;
@@ -119,6 +123,10 @@ nav a:hover{
 
 nav li:first-child{
     margin-right: auto;
+}
+
+.no-scroll {
+    overflow: hidden;
 }
 
 .sidebar{

@@ -7,7 +7,7 @@
     <title>Lawler Collective LLC</title>
     <link rel="icon" href="imgs/Lawler_Collective_Icon_White.svg">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css?v=<?php echo Date.now(); ?>" type="text/css"/>
+    <link rel="stylesheet" href="styles/style.css?1422585377" type="text/css"/>
 </head>
 
 <body id="home">   
@@ -31,13 +31,13 @@
     </nav>
 
     <script>
-        function showSideBar(){
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.style.display = 'flex';
+        function showSideBar() {
+            document.querySelector('.sidebar').style.display = 'flex';
+            document.body.classList.add('no-scroll');
         }
-        function hideSideBar(){
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.style.display = 'none';
+        function hideSideBar() {
+            document.querySelector('.sidebar').style.display = 'none';
+            document.body.classList.remove('no-scroll');
         }
         if (window.location.hash) {
             history.replaceState(null, null, window.location.pathname + window.location.search);
