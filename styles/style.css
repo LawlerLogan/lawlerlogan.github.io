@@ -5,8 +5,12 @@
     transition: 0.3s all ease-in-out;
 }
 
-html {
+html{
     scroll-behavior: smooth;
+}
+
+html body{
+    background: #000000;
 }
 
 body{
