@@ -10,6 +10,7 @@ body{
     font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
+    color: #ffffff;
     background: radial-gradient(circle at 100% 100%, rgb(10, 10, 10), rgba(1, 1, 1, 1));
 }
 
