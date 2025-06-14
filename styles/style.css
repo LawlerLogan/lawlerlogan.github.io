@@ -138,6 +138,8 @@ nav li:first-child{
     overflow-y: auto;
     animation-name: sidebar-slide-in;
     animation-duration: 0.3s;
+    background: #222 !important;
+    border: 2px solid red !important;
 }
 
 .sidebar li{
