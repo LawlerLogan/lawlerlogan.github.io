@@ -38,7 +38,39 @@
         function hideSideBar(){
             const sidebar = document.querySelector('.sidebar');
             sidebar.style.display = 'none';
-    }
+        }
+
+        function removehash(){
+            setTimeout(function(){
+                history.replaceState("", document.title, window.location.pathname);
+            }, 1);
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const hash = window.location.hash;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+                removehash();
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A' && event.target.getAttribute('href').startsWith('#')) {
+                event.preventDefault();
+                const targetId = event.target.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    removehash();
+                }
+            }
+        });
+
+
+
     </script>
 
     <div class="quote-section">

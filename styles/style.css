@@ -65,7 +65,7 @@ body{
 }
 
 .container .img-container img:hover{
-    transform: scale(1.01);
+    transform: scale(1.02);
     transition: transform 0.05s ease-in-out;
 }
 
@@ -191,14 +191,23 @@ footer{
 
 @media (max-width: 500px){
     .sidebar{
-        width: 100%;
+        width: 100%;  
     }
     .quote-section{
         height: 600px;
     }
+    :root{
+        --sidebar-width: -500px;
+    }
+}
+
+@media (min-width: 500px){
+    :root{
+        --sidebar-width: -300px;
+    }
 }
 
 @keyframes sidebar-slide-in{
-    from {right: -500px;}
+    from {right: var(--sidebar-width);}
     to {right: 0;}
 }
