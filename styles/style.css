@@ -196,10 +196,18 @@ footer{
     .quote-section{
         height: 600px;
     }
+    :root{
+        --sidebar-width: -500px;
+    }
 }
 
+@media (min-width: 500px){
+    :root{
+        --sidebar-width: -300px;
+    }
+}
 
 @keyframes sidebar-slide-in{
-    from {right: -500px;}
+    from {right: var(--sidebar-width);}
     to {right: 0;}
 }
