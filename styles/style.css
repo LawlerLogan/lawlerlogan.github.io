@@ -94,7 +94,7 @@ nav{
     z-index: 999;
 }
 
-nav ul{
+.header-nav{
     width: 100%;
     list-style: none;
     display: flex;
@@ -103,7 +103,7 @@ nav ul{
     height: 125px;
 }
 
-nav a{
+.header-nav a{
     height: 100%;
     padding: 0 30px;
     text-decoration: none;
@@ -117,16 +117,20 @@ nav a{
     transition: opacity 0.2s;
 }
 
-nav a:hover{
+.header-nav a:hover{
     opacity: 1;
 }
 
-nav li:first-child{
+.header-nav li:first-child{
     margin-right: auto;
 }
 
 .no-scroll {
     overflow: hidden;
+}
+
+.button{
+    cursor: pointer;
 }
 
 .sidebar{
@@ -136,7 +140,7 @@ nav li:first-child{
     height: 100vh;
     width: 300px;
     z-index: 1000;
-    background-color: #1111110c;
+    background-color: #1111113b;
     box-shadow: -10px 0px 10px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
     display: none;
@@ -146,8 +150,8 @@ nav li:first-child{
     overflow-y: auto;
     animation-name: sidebar-slide-in;
     animation-duration: 0.3s;
-    background: #222 !important;
-    border: 2px solid red !important;
+    opacity: 0.7;
+    transition: opacity 0.2s;
 }
 
 .sidebar li{
@@ -158,6 +162,27 @@ nav li:first-child{
 .sidebar a{
     width: 100%;
 }
+
+
+.sidebar a{
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-family: 'Montserrat';
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.sidebar a:hover{
+    opacity: 1;
+}
+
 
 .menu-button{
     display: none;
