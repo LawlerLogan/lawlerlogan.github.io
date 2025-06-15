@@ -59,7 +59,7 @@ body{
 }
 
 .container-about{
-    padding: 0 5%;
+    padding: 0 10%;
 }
 
 .container-about .about-content{
@@ -282,7 +282,7 @@ nav{
 }
 
 .container-contact{
-    padding: 0 5%;
+    padding: 0 10%;
 }
 
 .container-contact .contact-content{
@@ -304,6 +304,7 @@ nav{
 .container-contact .contact-content a:link{
     color: rgb(200, 19, 49);
 }
+
 .container-contact .contact-content a:visited{
     color: rgb(200, 19, 49);
 }
@@ -324,12 +325,14 @@ footer{
 }
 
 .footer-logo{
-    position: absolute;
-    left: 30px;
     padding: 5px 10px;
     height: 100%;
     pointer-events: none;
     user-select: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
     display: flex;
     align-items: center;
 }
@@ -342,24 +345,10 @@ footer{
     margin: 0 auto;
     text-align: center;
     width: 100%;
+    z-index: 1;
 }
 
-@media (max-width: 1000px){
-    .hideOnMobile {
-        display: none;
-    }
-    .menu-button {
-        display: block;
-    }
-    .sidebar {
-        display: flex;
-    }
-    .nav-header {
-        gap: 0;
-    }
-}
-
-@media (max-width: 500px){
+@media (max-width: 600px) {
     .sidebar{
         width: 100%;  
     }
@@ -367,11 +356,41 @@ footer{
         height: 750px;
     }
     :root{
-        --sidebar-width: -500px;
+        --sidebar-width: -600px;
+    }
+
+    .footer-logo{
+        position: static;
+        height: 40px;
+        padding: 0 10px 0 10px;
+    }
+    footer{
+        justify-content: flex-start;
+    }
+    .footer-text{
+        margin: 0;
+        width: auto;
+        text-align: left;
     }
 }
 
-@media (min-width: 500px){
+
+@media (max-width: 1000px){
+    .hideOnMobile{
+        display: none;
+    }
+    .menu-button{
+        display: block;
+    }
+    .sidebar{
+        display: flex;
+    }
+    .nav-header{
+        gap: 0;
+    }
+}
+
+@media (min-width: 600px){
     :root{
         --sidebar-width: -300px;
     }
@@ -382,7 +401,7 @@ footer{
     to {right: 0;}
 }
 
-@keyframes fadeInFullImage {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes fadeInFullImage{
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
