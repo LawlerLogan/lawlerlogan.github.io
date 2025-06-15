@@ -102,11 +102,22 @@
                         fullImage.appendChild(imgElement);
                         document.body.appendChild(fullImage);
                         document.body.classList.add('full-image-open');
-                        fullImage.ondragstart = () => { return false; };
-                        fullImage.onclick = function() {
-                            this.remove();
+                        fullImage.ondragstart = () => {return false;};
+
+                        function closeFullImage(){
+                            fullImage.remove();
                             document.body.classList.remove('full-image-open');
-                        };
+                            document.removeEventListener('keydown', escListener);
+                        }
+
+                        fullImage.onclick = closeFullImage;
+
+                        function escListener(e){
+                            if (e.key === "Escape"){
+                                closeFullImage();
+                            }
+                        }
+                        document.addEventListener('keydown', escListener);
                     };
                     img.ondragstart = () => { return false; };
                 }
@@ -132,7 +143,7 @@
     <footer>
         <img class="footer-logo" src="imgs/Lawler_Collective_Icon_White.svg" alt="Lawler Collective LLC Logo" style="width: 100px; height: auto;">
                 
-        <span class="footer-text">&copy; 2025 Lawler Collective LLC, All Rights Reserved.</span>
+        <span class="footer-text">&copy; 2025 Lawler Collective LLC, All Rights Reserved.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.0.0</span>
     </footer>
 
 </body>
