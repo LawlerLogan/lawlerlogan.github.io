@@ -120,6 +120,11 @@ body{
     z-index: 1001;
     cursor: zoom-out;
     animation: fadeInFullImage 0.2s;
+    overflow: hidden;
+}
+
+body.full-image-open {
+    overflow: hidden;
 }
 
 .full-image img{

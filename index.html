@@ -27,7 +27,7 @@
             <li class="hideOnMobile"><a href="#about">ABOUT</a></li>
             <li class="hideOnMobile"><a href="#gallery">GALLERY</a></li>
             <li class="hideOnMobile"><a href="#contact">CONTACT</a></li>
-            <li class="menu-button" onclick=showSideBar()><a class="button"><svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="#e3e3e3"><path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
+            <li class="menu-button" onclick="showSideBar()"><a class="button"><svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="#e3e3e3"><path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
         </ul>
     </nav>
 
@@ -81,13 +81,13 @@
                 const maxImages = 54;
                 var lessThan10 = null;
                 for (let i = 1; i <= maxImages; i++) {
-                    if( i < 10) {
+                    if (i < 10) {
                         lessThan10 = '0';
                     } else {
                         lessThan10 = '';
                     }
                     const img = document.createElement('img');
-                    img.src = `imgs/gallery/LAW-${lessThan10}${i}.${'jpg'}`;
+                    img.src = `imgs/gallery/LAW-${lessThan10}${i}.jpg`;
                     img.alt = `Image ${i}`;
                     img.onerror = function() {
                         this.remove();
@@ -100,11 +100,13 @@
                         imgElement.src = this.src;
                         fullImage.appendChild(imgElement);
                         document.body.appendChild(fullImage);
+                        document.body.classList.add('full-image-open');
                         fullImage.onclick = function() {
                             this.remove();
+                            document.body.classList.remove('full-image-open');
                         };
                     };
-                    img.ondragstart = () => {return false;};
+                    img.ondragstart = () => { return false; };
                 }
             </script>
         </div>
