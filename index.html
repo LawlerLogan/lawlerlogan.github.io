@@ -1,4 +1,4 @@
-<li onclick="hideSideBar()"></li>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,6 +19,7 @@
             <li onclick=hideSideBar()><a href="#gallery">GALLERY</a></li>
             <li onclick=hideSideBar()><a href="#contact">CONTACT</a></li>
         </ul>
+        <div class="sidebar-backdrop" onclick="hideSideBar()"></div>
 
         <ul class="nav-header">
             <li><img class="header-logo" src="imgs/Lawler_Collective_Wordmark_White.svg" alt="Lawler Collective LLC Logo"></li>
@@ -51,10 +52,27 @@
         <a>CAPTURE WHAT YOU  <span class="quote-highlight">FEEL</span> NOT WHAT YOU <span class="quote-highlight">SEE</span>.</a>
         <b>— NIKEN PATEL</b>
     </div>
+    <section id="about"></section>
+
+    <div class="container-about">
+        <h1 class="about-title">WHO ARE WE?</h1>
+            <div class="about-content">
+                <p>The Lawler Collective is dedicated to capturing the unique character of every 
+                    subject through its high-quality photography, videography, and graphic design.</p>
+
+                <p>Based in Macomb, Michigan, we are committed to innovation in every project and 
+                    always <em>shoot</em> for the best results. Expanding our horizons and exploring 
+                    new mediums is central to our mission, allowing us to bring our clients' visions 
+                    to life. Expect a <em>collective</em> of visuals designed to leave a lasting 
+                    impression long after the moment has passed.</p>
+
+                <p>Let us help you tell your story—one frame at a time.</p>
+            </div>
+    </div>
 
     <section id="gallery"></section>
 
-    <div class="container">
+    <div class="container-gallery">
         <h1 class="gallery-title">OUR RECENT WORK</h1>
 
         <div class="img-container">
@@ -75,6 +93,17 @@
                         this.remove();
                     };
                     imgContainer.appendChild(img);
+                    img.onclick = function() {
+                        const fullImage = document.createElement('div');
+                        fullImage.className = 'full-image';
+                        const imgElement = document.createElement('img');
+                        imgElement.src = this.src;
+                        fullImage.appendChild(imgElement);
+                        document.body.appendChild(fullImage);
+                        fullImage.onclick = function() {
+                            this.remove();
+                        };
+                    };
                     img.ondragstart = () => {return false;};
                 }
             </script>
