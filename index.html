@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lawler Collective LLC</title>
-    <link rel="icon" type="image/svg+xml" href="imgs/Lawler_Collective_Wordmark_White.svg">
+    <link rel="icon" type="image/svg+xml" href="imgs/Lawler_Collective_Icon_White.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon-16x16.png">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
@@ -115,11 +115,13 @@
                         fullImage.appendChild(imgElement);
                         document.body.appendChild(fullImage);
                         document.body.classList.add('full-image-open');
+                        document.body.classList.add('no-scroll');
                         fullImage.ondragstart = () => {return false;};
 
                         function closeFullImage(){
                             fullImage.remove();
                             document.body.classList.remove('full-image-open');
+                            document.body.classList.remove('no-scroll');
                             document.removeEventListener('keydown', escListener);
                         }
 
@@ -156,7 +158,7 @@
     <footer>
         <img class="footer-logo" src="imgs/Lawler_Collective_Icon_White.svg" alt="Lawler Collective LLC Logo" style="width: 100px; height: auto;">
                 
-        <span class="footer-text">&copy; 2025 Lawler Collective LLC, All Rights Reserved.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.0.1</span>
+        <span class="footer-text">&copy; 2025 Lawler Collective LLC, All Rights Reserved.&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp1.0.2</span>
     </footer>
 
 </body>
