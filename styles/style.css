@@ -419,9 +419,8 @@ footer{
     .sidebar{
         width: 100%;  
     }
-
     .sidebar li{
-    padding: 20px 40px;       
+    padding: 18px 40px;       
     }
     .quote-section{
         height: 750px;
@@ -429,7 +428,6 @@ footer{
     :root{
         --sidebar-width: -600px;
     }
-
     .footer-logo{
         position: static;
         height: 40px;
