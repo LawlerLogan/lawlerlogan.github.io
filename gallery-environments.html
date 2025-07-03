@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="imgs/favicon-16x16.png">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css?1422585377" type="text/css"/>
+    <link rel="stylesheet" href="/styles/gallery-environments.css?1422585377" type="text/css"/>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EX0BGF3KNV"></script>
     <script>
@@ -18,30 +18,24 @@
     gtag('js', new Date());
 
     gtag('config', 'G-EX0BGF3KNV');
-
-    window.addEventListener('load', function() {
-        document.body.style.visibility = 'visible';
-    });
-    document.body.style.visibility = 'hidden';
     </script>
-
 </head>
 
 <body id="home">   
     <nav>
         <ul class="sidebar">
             <li onclick=hideSideBar()><a class="button"><svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#e3e3e3"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a></li>
-            <li onclick=hideSideBar()><a href="#home">HOME</a></li>
-            <li onclick=hideSideBar()><a href="#about">ABOUT</a></li>
-            <li onclick=hideSideBar()><a href="#recent">RECENT</a></li>
-            <li onclick=hideSideBar()><a href="#contact">CONTACT</a></li>
+            <li onclick=hideSideBar()><a href="index.html#home">HOME</a></li>
+            <li onclick=hideSideBar()><a href="index.html#about">ABOUT</a></li>
+            <li onclick=hideSideBar()><a href="index.html#recent">RECENT</a></li>
+            <li onclick=hideSideBar()><a href="index.html#contact">CONTACT</a></li>
             <li>
                 <details>
-                    <summary> GALLERY</summary>
+                    <summary>GALLERY</summary>
                     <ul>
-                        <li onclick=hideSideBar()><a href="/gallery-portraits.html">PORTRAITS</a></li>
-                        <li onclick=hideSideBar()><a href="/gallery-cars.html">CARS</a></li>
-                        <li onclick=hideSideBar()><a href="/gallery-environments.html">ENVIRONMENT</a></li>
+                        <li onclick=hideSideBar()><a href="gallery-portraits.html">PORTRAITS</a></li>
+                        <li onclick=hideSideBar()><a href="gallery-cars.html">CARS</a></li>
+                        <li onclick=hideSideBar()><a href="gallery-environments.html">ENVIRONMENTS</a></li>
                     </ul>
                 </details>
             </li>
@@ -50,16 +44,16 @@
 
         <ul class="nav-header">
             <li><img class="header-logo" src="imgs/Lawler_Collective_Wordmark_White.svg" alt="Lawler Collective LLC Logo"></li>
-            <li class="hideOnMobile"><a href="#home">HOME</a></li>
-            <li class="hideOnMobile"><a href="#about">ABOUT</a></li>
-            <li class="hideOnMobile"><a href="#recent">RECENT</a></li>
-            <li class="hideOnMobile"><a href="#contact">CONTACT</a></li>
+            <li class="hideOnMobile"><a href="index.html#home">HOME</a></li>
+            <li class="hideOnMobile"><a href="index.html#about">ABOUT</a></li>
+            <li class="hideOnMobile"><a href="index.html#recent">RECENT</a></li>
+            <li class="hideOnMobile"><a href="index.html#contact">CONTACT</a></li>
             <li class="hideOnMobile nav-gallery-dropdown">
                 <a href="#">GALLERY</a>
                 <ul class="dropdown-menu">
-                    <li><a href="/gallery-portraits.html">PORTRAITS</a></li>
-                    <li><a href="/gallery-cars.html">CARS</a></li>
-                    <li><a href="/gallery-environments.html">ENVIRONMENT</a></li>
+                    <li><a href="gallery-portraits.html">PORTRAITS</a></li>
+                    <li><a href="gallery-cars.html">CARS</a></li>
+                    <li><a href="gallery-environments.html">ENVIRONMENTS</a></li>
                 </ul>
             </li>
             <li class="menu-button" onclick="showSideBar()"><a class="button"><svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px" fill="#e3e3e3"><path d="M120-240v-80h240v80H120Zm0-200v-80h480v80H120Zm0-200v-80h720v80H120Z"/></svg></a></li>
@@ -83,49 +77,26 @@
         });
     </script>
 
-    <div class="quote-section">
-        <a>CAPTURE WHAT YOU  <span class="quote-highlight">FEEL</span> NOT WHAT YOU <span class="quote-highlight">SEE</span>.</a>
-        <b>— NIKEN PATEL</b>
-    </div>
+    <section id="gallery"></section>
 
-    <section id="about"></section>
-
-    <div class="container-about">
-        <h1 class="about-title">WHO ARE WE?</h1>
-            <div class="about-content">
-                <p>The Lawler Collective is dedicated to capturing the unique character of every 
-                    subject through its high-quality photography, videography, and graphic design.</p>
-
-                <p>Based in Macomb, Michigan, we are committed to innovation in every project and 
-                    always <em>shoot</em> for the best results. Expanding our horizons and exploring 
-                    new mediums is central to our mission, allowing us to bring our clients' visions 
-                    to life. Expect a <em>collective</em> of visuals designed to leave a lasting 
-                    impression long after the moment has passed.</p>
-
-                <p>Let us help you tell your story—one frame at a time.</p>
-            </div>
-    </div>
-
-    <section id="recent"></section>
-
-    <div class="container-recent">
-        <h1 class="recent-title">OUR RECENT WORK</h1>
+    <div class="container-gallery">
+        <h1 class="gallery-title">GALLERY&nbsp&nbsp-&nbsp&nbspENVIRONMENTS</h1>
 
         <div class="img-container">
             <script>
                 const imgContainer = document.currentScript.parentElement;
                 const maxImages = 100;
                 var lessThan10 = null;
-                for (let i = 1; i <= maxImages; i++) {
-                    if (i < 10) {
+                for (let i = 1; i <= maxImages; i++){
+                    if (i < 10){
                         lessThan10 = '0';
-                    } else {
+                    } else{
                         lessThan10 = '';
                     }
                     const img = document.createElement('img');
-                    img.src = `imgs/gallery/index/LAW-${lessThan10}${i}.jpg`;
+                    img.src = `imgs/gallery/environments/LAW-${lessThan10}${i}.jpg`;
                     img.alt = `Image ${i}`;
-                    img.onerror = function() {
+                    img.onerror = function(){
                         this.remove();
                     };
                     imgContainer.appendChild(img);
@@ -160,21 +131,6 @@
                 }
             </script>
         </div>
-    </div>
-
-    <section id="contact"></section>
-
-    <div class="container-contact">
-        <h1 class="contact-title">CONNECT WITH US</h1>
-            <div class="contact-content">
-                <p>If you're interested in working with us or have any questions, we'd love to hear
-                    from you!</p>
-
-                <p>We do portrait photography, senior photos, car photography, and more. Message us on
-                    Instagram at <a href="https://www.instagram.com/lawler07/" target="_blank">@lawler07</a>,
-                    or email us at <a href="mailto:lawlercollective@gmail.com">lawlercollective@gmail.com</a>
-                    for pricing inquiries.</p>
-            </div>
     </div>
 
     <footer>
