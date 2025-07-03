@@ -419,6 +419,10 @@ footer{
     .sidebar{
         width: 100%;  
     }
+
+    .sidebar li{
+    padding: 20px 40px;       
+    }
     .quote-section{
         height: 750px;
     }
