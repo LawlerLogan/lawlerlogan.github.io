@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillsUSA National Championship · Logan Lawler</title>
+<meta name="description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology, against 26 other teams.">
+<meta name="theme-color" content="#f6f7f7">
+<meta property="og:title" content="SkillsUSA National Championship · Logan Lawler">
+<meta property="og:description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology, against 26 other teams.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/cursor.js" defer></script>
+<script src="/assets/js/dots.js" defer></script>
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*#*"}}]},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="Logan Lawler, home"><span class="mark__box" aria-hidden="true">L</span><span class="mark__name">Logan Lawler</span></a>
+    <nav class="nav mono" aria-label="Sections">
+      <a href="/#work">Work</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#skills">Skills</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="pg-hero lit lit--hero">
+    <div class="wrap">
+      <a class="back mono" href="/#p-skillsusa"><span class="arrow" aria-hidden="true">←</span> All work</a>
+      <h1 style="view-transition-name:t-skillsusa">SkillsUSA National Championship</h1>
+      <p class="lede">Gold medal at the SkillsUSA National Leadership &amp; Skills Conference in Robotics &amp; Automation Technology, against 26 other teams.</p>
+      <dl class="spec">
+        <div><dt class="label">Result</dt><dd>Gold · National Champion</dd></div>
+        <div><dt class="label">When</dt><dd>Nov 2024 – Jun 2025</dd></div>
+        <div><dt class="label">Format</dt><dd>≈8-hour build-and-program challenge</dd></div>
+        <div><dt class="label">Hardware</dt><dd>Yaskawa robot, Siemens LOGO! PLC, inductive sensor, vision camera</dd></div>
+        <div><dt class="label">Skills</dt><dd><ul class="tags"><li><a href="/#skill-robotics">Robotics</a></li><li><a href="/#skill-electronics">Electronics</a></li><li><a href="/#skill-software">Software</a></li></ul></dd></div>
+      </dl>
+    </div>
+    <canvas class="art" data-shape="arm" data-cx="0.64" aria-hidden="true"></canvas>
+  </section>
+  <div class="wrap">
+    <section class="prose"><h2>The challenge</h2><div><p>An eight-hour competition, with a one-hour break, to build a working automated cell from scratch: wire and program a <strong>Yaskawa robot</strong> and a <strong>Siemens LOGO! PLC</strong>, tied together through the robot's I/O and <strong>ladder logic</strong>.</p></div></section>
+    <section class="prose"><h2>Inspection logic</h2><div><p>Each block had to be checked on <strong>all six sides</strong> for a hole:</p><ul><li><strong>No hole:</strong> the block goes to the discard pile</li><li><strong>Hole found:</strong> an <strong>inductive sensor</strong> decides whether the block is metal, and it is sorted into the matching pile</li></ul><p>In the first stage a <strong>limit switch</strong> detected the hole.</p></div></section>
+    <section class="prose"><h2>Hardest problem</h2><div><p>Blocks could be loaded in <strong>random order</strong>, so the cell couldn't use fixed drop points. Placement positions had to be calculated on the fly from running counts of accepted and rejected parts, so each new block landed in the next open spot of its pile no matter what sequence came down the line.</p></div></section>
+    <section class="prose"><h2>Final stage: vision</h2><div><p>The last stage replaced the limit switch with a <strong>vision camera</strong> detecting the hole, integrated through the PLC. Only a handful of teams reached this stage.</p></div></section>
+    <section class="prose"><h2>Documentation</h2><div><p>Everything had to be handed off like a real cell: <strong>flowcharts</strong> of the control logic, <strong>safety lists</strong> and <strong>work cell layouts</strong>.</p></div></section>
+    <section class="prose"><h2>Result</h2><div><p><strong>Gold medal and national champion</strong>, ahead of 26 other teams. Alongside the competition, earned three <strong>FANUC</strong> certifications: Robotics Material Handling and Programming, Basic Robot Operations, and Robot Operator with ROBOGUIDE.</p></div></section>
+    <div class="gallery gallery--3">
+      <figure class="shot"><video class="media" controls muted playsinline preload="none" poster="/assets/img/skillsusa-robot-poster.webp" width="720" height="1280" style="--ar:9/16" aria-label="Training on the school's Yaskawa robot cell: picking blocks from a gravity feed and checking them at a sensor box"><source src="/assets/video/skillsusa-robot.mp4" type="video/mp4"></video><figcaption class="label">Training on the school's Yaskawa cell (video)</figcaption></figure>
+      <figure class="shot"><img class="media" src="/assets/img/skillsusa-cell.webp" width="780" height="905" style="--ar:780/905" alt="The school's Yaskawa training cell: a blue Yaskawa robot on its base plate with sensors and parts laid out on the table" loading="lazy" decoding="async"><figcaption class="label">The school's Yaskawa training cell</figcaption></figure>
+      <figure class="shot"><img class="media" src="/assets/img/skillsusa-medal.webp" width="725" height="967" style="--ar:725/967" alt="SkillsUSA Championships national champion medal in its case" loading="lazy" decoding="async"><figcaption class="label">National champion medal</figcaption></figure>
+      <figure class="shot shot--wide"><img class="media" src="/assets/img/skillsusa-fanuc.webp" width="1046" height="687" style="--ar:1046/687" alt="Shaking hands with a FANUC representative beside a FANUC robot at the SkillsUSA national conference" loading="lazy" decoding="async"><figcaption class="label">With FANUC at the national conference</figcaption></figure>
+    </div>
+    <a class="next" href="/projects/dbf/"><span class="label">Next project</span><span>AIAA Design/Build/Fly 2027 <span class="arrow" aria-hidden="true">→</span></span></a>
+  </div>
+</main>
+<footer class="ft mono">
+  <div class="wrap">
+    <span>© 2026 Logan Lawler</span>
+    <span>Hand-built. No frameworks.</span>
+  </div>
+</footer>
+</body>
+</html>

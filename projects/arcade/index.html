@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Arcade Machine · Logan Lawler</title>
+<meta name="description" content="High school senior capstone: a wooden arcade machine running a Galaga-style shooter written from scratch in Godot on a Raspberry Pi 5.">
+<meta name="theme-color" content="#f6f7f7">
+<meta property="og:title" content="Mini Arcade Machine · Logan Lawler">
+<meta property="og:description" content="High school senior capstone: a wooden arcade machine running a Galaga-style shooter written from scratch in Godot on a Raspberry Pi 5.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/cursor.js" defer></script>
+<script src="/assets/js/dots.js" defer></script>
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*#*"}}]},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="Logan Lawler, home"><span class="mark__box" aria-hidden="true">L</span><span class="mark__name">Logan Lawler</span></a>
+    <nav class="nav mono" aria-label="Sections">
+      <a href="/#work">Work</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#skills">Skills</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="pg-hero lit lit--hero">
+    <div class="wrap">
+      <a class="back mono" href="/#p-arcade"><span class="arrow" aria-hidden="true">←</span> All work</a>
+      <h1 style="view-transition-name:t-arcade">Mini Arcade Machine</h1>
+      <p class="lede">High school senior capstone: a wooden arcade machine running a Galaga-style shooter written from scratch in Godot on a Raspberry Pi 5.</p>
+      <dl class="spec">
+        <div><dt class="label">Context</dt><dd>Mechatronics capstone, 2025</dd></div>
+        <div><dt class="label">Hardware</dt><dd>Raspberry Pi 5, 7-inch display, 3 arcade buttons</dd></div>
+        <div><dt class="label">Software</dt><dd>Godot, Python (gpiozero, evdev)</dd></div>
+        <div><dt class="label">Build</dt><dd>Machined wood cabinet</dd></div>
+        <div><dt class="label">Skills</dt><dd><ul class="tags"><li><a href="/#skill-software">Software</a></li><li><a href="/#skill-electronics">Electronics</a></li><li><a href="/#skill-fabrication">Fabrication</a></li></ul></dd></div>
+      </dl>
+    </div>
+    <canvas class="art" data-shape="joystick" data-cx="0.64" aria-hidden="true"></canvas>
+  </section>
+  <div class="wrap">
+    <section class="prose"><h2>The game</h2><div><p>A Galaga-style space shooter written from the ground up in <strong>Godot</strong>: the player ship, enemies, shooting and scoring, all built without templates and tuned to be played on three buttons.</p></div></section>
+    <section class="prose"><h2>Buttons to keystrokes</h2><div><p>Godot reads the keyboard, and arcade buttons aren't a keyboard. The fix is a small <strong>Python</strong> service that makes them one:</p><ul><li>Three buttons are wired to the Pi's GPIO pins (2, 3 and 10) and read with <strong>gpiozero</strong></li><li><strong>evdev</strong>'s <code>UInput</code> creates a virtual keyboard at the Linux input layer, so the game receives real key events with no changes to the game code</li><li>Left and right <strong>hold</strong> their keys for as long as the button is down; fire sends a single <strong>tap</strong> per press, so holding it doesn't machine-gun</li><li>The loop polls every 10 ms and only sends an event when a button changes state</li></ul></div></section>
+    <section class="prose"><h2>The cabinet</h2><div><p>A compact cabinet <strong>machined from wood</strong>, housing the Raspberry Pi 5, a <strong>7-inch display</strong> and the three arcade buttons, so the machine boots straight into the game and plays standalone.</p></div></section>
+    <section class="prose"><h2>Showcase</h2><div><p>Presented at the 2025 mechatronics capstone showcase alongside a display board covering the cabinet, electronics and software, and a full <strong>engineering notebook</strong> documenting the build.</p></div></section>
+    <div class="gallery">
+      <figure class="shot"><img class="media" src="/assets/img/arcade-display.webp" width="716" height="961" style="--ar:716/961" alt="The finished Mini Galaga arcade machine running the game at the 2025 capstone showcase, in front of its display board and engineering notebook" loading="lazy" decoding="async"><figcaption class="label">At the capstone showcase</figcaption></figure>
+      <figure class="shot"><img class="media media--plain" src="/assets/img/arcade-render.webp" width="679" height="928" style="--ar:679/928" alt="Rendered model of the arcade cabinet: marquee on top, screen, and a control ledge with red, blue and green buttons" loading="lazy" decoding="async"><figcaption class="label">Cabinet model, rendered</figcaption></figure>
+    </div>
+    <a class="next" href="/projects/boat-race/"><span class="label">Next project</span><span>Odysseus’s Ship Showdown Carnival Game <span class="arrow" aria-hidden="true">→</span></span></a>
+  </div>
+</main>
+<footer class="ft mono">
+  <div class="wrap">
+    <span>© 2026 Logan Lawler</span>
+    <span>Hand-built. No frameworks.</span>
+  </div>
+</footer>
+</body>
+</html>

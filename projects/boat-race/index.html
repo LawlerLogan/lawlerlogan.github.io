@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Odysseus’s Ship Showdown Carnival Game · Logan Lawler</title>
+<meta name="description" content="A life-size, two-player carnival race: every press moves a real boat down the track and its twin across the screen.">
+<meta name="theme-color" content="#f6f7f7">
+<meta property="og:title" content="Odysseus’s Ship Showdown Carnival Game · Logan Lawler">
+<meta property="og:description" content="A life-size, two-player carnival race: every press moves a real boat down the track and its twin across the screen.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/cursor.js" defer></script>
+<script src="/assets/js/dots.js" defer></script>
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*#*"}}]},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="Logan Lawler, home"><span class="mark__box" aria-hidden="true">L</span><span class="mark__name">Logan Lawler</span></a>
+    <nav class="nav mono" aria-label="Sections">
+      <a href="/#work">Work</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#skills">Skills</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="pg-hero lit lit--hero">
+    <div class="wrap">
+      <a class="back mono" href="/#p-boat"><span class="arrow" aria-hidden="true">←</span> All work</a>
+      <h1 style="view-transition-name:t-boat">Odysseus’s Ship Showdown Carnival Game</h1>
+      <p class="lede">A life-size, two-player carnival race: every press moves a real boat down the track and its twin across the screen.</p>
+      <dl class="spec">
+        <div><dt class="label">Players</dt><dd>Two: red vs. blue</dd></div>
+        <div><dt class="label">Control</dt><dd>3 Arduinos + a Godot game</dd></div>
+        <div><dt class="label">Inputs</dt><dd>Button, conductive hand sensor</dd></div>
+        <div><dt class="label">Build</dt><dd>2×4 &amp; plywood frame, PLA printed parts</dd></div>
+        <div><dt class="label">Skills</dt><dd><ul class="tags"><li><a href="/#skill-software">Software</a></li><li><a href="/#skill-electronics">Electronics</a></li><li><a href="/#skill-fabrication">Fabrication</a></li></ul></dd></div>
+      </dl>
+    </div>
+    <canvas class="art" data-shape="boat" data-cx="0.64" aria-hidden="true"></canvas>
+  </section>
+  <div class="wrap">
+    <section class="prose"><h2>How it plays</h2><div><p>Two players stand at the front of the station, one on the <strong>blue</strong> lane and one on the <strong>red</strong>. Each has a <strong>hand-shaped conductive pad</strong> and a <strong>push button</strong>. Every press or touch pushes that player's miniature ship forward along a slot in their lane, and its twin forward on the TV above. First to the far end wins.</p></div></section>
+    <section class="prose"><h2>Electronics</h2><div><ul><li><strong>Two Arduinos</strong> read the player inputs. They were used in place of the Raspberry Pi's GPIO, which caused complications with the inputs</li><li>A <strong>third Arduino</strong> drives the motors that pull each boat along the track on a <strong>belt</strong></li><li>A pixel-art game built in <strong>Godot</strong> shows the race on a TV, keeping each virtual boat in step with its physical twin, with music through the speakers</li></ul></div></section>
+    <section class="prose"><h2>Build</h2><div><p>Designed in CAD as one standalone station, then built full size:</p><ul><li>A frame of <strong>2×4s and plywood</strong> on <strong>casters</strong>, with gussets at the joints and a shelf underneath for the electronics</li><li>A play surface split into a <strong>blue lane</strong> and a <strong>red lane</strong>, each with a slot running its length</li><li>Under each lane, a <strong>belt loop</strong> runs between a drive pulley and an idler; the ship sits on a carriage that rides the slot, clipped to the belt (see section A–A and the details in the drawing below)</li><li>A backboard carrying the <strong>TV</strong> and two <strong>speakers</strong></li><li>A front control strip with each player's hand pad and button</li><li>For the finished look, the lanes are dressed as a stormy sea with cotton waves and <strong>blue underlighting</strong></li><li>Motor mounts, ships and other components <strong>3D printed in PLA</strong></li></ul></div></section>
+    <div class="gallery">
+      <figure class="shot"><img class="media" src="/assets/img/ship-game-700.webp" srcset="/assets/img/ship-game-700.webp 700w, /assets/img/ship-game-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw" width="1200" height="1600" style="--ar:3/4" alt="The finished Odysseus’s Ship Showdown station: the title screen on the TV, two speakers, and red and blue ships on a cotton-wave sea above the hand pads and button" loading="lazy" decoding="async"><figcaption class="label">The finished station</figcaption></figure>
+      <figure class="shot"><img class="media media--plain" src="/assets/img/ship-game-cad.webp" width="674" height="939" style="--ar:674/939" alt="Rendered CAD model of the station: TV and speakers on the backboard, blue and red lanes with slots and ships, hand pads and buttons, and the frame on casters" loading="lazy" decoding="async"><figcaption class="label">CAD model, rendered</figcaption></figure>
+      <figure class="shot shot--wide"><img class="media media--plain" src="/assets/img/ship-game-drawing.webp" width="1525" height="985" style="--ar:1525/985" alt="Engineering drawing of the station: front view, section A-A through a lane, and details showing the ships riding on carriages above the belt loop and its pulleys" loading="lazy" decoding="async"><figcaption class="label">Drawing: front view, section A–A and belt-drive details</figcaption></figure>
+    </div>
+    <a class="next" href="/projects/uav/"><span class="label">Next project</span><span>Custom UAV &amp; Ground Station <span class="arrow" aria-hidden="true">→</span></span></a>
+  </div>
+</main>
+<footer class="ft mono">
+  <div class="wrap">
+    <span>© 2026 Logan Lawler</span>
+    <span>Hand-built. No frameworks.</span>
+  </div>
+</footer>
+</body>
+</html>

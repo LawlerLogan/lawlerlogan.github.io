@@ -1,0 +1,5 @@
+# local tooling
+.claude/
+
+# full-size originals; the site uses compressed copies in assets/img/
+source-images/

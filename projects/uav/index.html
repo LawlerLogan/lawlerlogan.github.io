@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom UAV & Ground Station · Logan Lawler</title>
+<meta name="description" content="Sub-250 g quadcopter designed, printed, wired and tuned from scratch, with a Wi-Fi ground station that streams and logs live telemetry.">
+<meta name="theme-color" content="#f6f7f7">
+<meta property="og:title" content="Custom UAV & Ground Station · Logan Lawler">
+<meta property="og:description" content="Sub-250 g quadcopter designed, printed, wired and tuned from scratch, with a Wi-Fi ground station that streams and logs live telemetry.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/cursor.js" defer></script>
+<script src="/assets/js/dots.js" defer></script>
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"*#*"}}]},"eagerness":"moderate"}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="Logan Lawler, home"><span class="mark__box" aria-hidden="true">L</span><span class="mark__name">Logan Lawler</span></a>
+    <nav class="nav mono" aria-label="Sections">
+      <a href="/#work">Work</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#skills">Skills</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="pg-hero lit lit--hero">
+    <div class="wrap">
+      <a class="back mono" href="/#p-uav"><span class="arrow" aria-hidden="true">←</span> All work</a>
+      <h1 style="view-transition-name:t-uav">Custom UAV &amp; Ground Station</h1>
+      <p class="lede">Sub-250 g quadcopter designed, printed, wired and tuned from scratch, with a Wi-Fi ground station that streams and logs live telemetry.</p>
+      <dl class="spec">
+        <div><dt class="label">Role</dt><dd>Design, build &amp; software</dd></div>
+        <div><dt class="label">When</dt><dd>Jun – Aug 2026</dd></div>
+        <div><dt class="label">Weight</dt><dd>≈170 g on 3-inch props</dd></div>
+        <div><dt class="label">Stack</dt><dd>SOLIDWORKS, Betaflight, ExpressLRS, Python</dd></div>
+        <div><dt class="label">Skills</dt><dd><ul class="tags"><li><a href="/#skill-cad">Mechanical &amp; CAD</a></li><li><a href="/#skill-software">Software</a></li><li><a href="/#skill-electronics">Electronics</a></li><li><a href="/#skill-fabrication">Fabrication</a></li></ul></dd></div>
+      </dl>
+      <figure class="pg-media shot"><img class="media" src="/assets/img/uav-800.webp" srcset="/assets/img/uav-800.webp 800w, /assets/img/uav-1600.webp 1600w" sizes="(max-width: 1240px) 100vw, 1240px" width="1600" height="1067" style="--ar:3/2" alt="The finished sub-250 g quadcopter: 3D-printed black X frame, flight-controller stack, 1404 motors and tri-blade props" decoding="async"><figcaption class="label">The finished quad, about 170 g</figcaption></figure>
+    </div>
+    <canvas class="art" data-shape="quad" data-cx="0.64" aria-hidden="true"></canvas>
+  </section>
+  <div class="wrap">
+    <section class="prose"><h2>Design target</h2><div><p>The whole build was driven by one number: <strong>stay under 250 g</strong>, the sub-250 class of small drones. Every part had to earn its weight: the lightest components that would still do the job, the shortest wire runs, and no frame material that wasn't carrying load.</p><p>Final takeoff weight came in at <strong>roughly 170 g</strong> on 3-inch propellers, about 80 g under the limit.</p></div></section>
+    <section class="prose"><h2>Airframe</h2><div><p>Designed in <strong>SOLIDWORKS</strong> around the 3-inch props, flight controller, receiver, GPS and battery, then 3D printed. Design and manufacturing were the hardest parts of the project: everything had to be packed as tightly and as lightly as possible while keeping prop clearance and leaving the electronics reachable for service.</p><p>Each revision went through the same loop: model, print, test-fit the hardware, trim weight, repeat.</p></div></section>
+    <section class="prose"><h2>Electronics &amp; flight control</h2><div><ul><li><strong>Flight controller</strong> running <strong>Betaflight</strong>, configured and tuned for the airframe</li><li><strong>1404-size, 3800 KV</strong> brushless motors on 3-inch tri-blade props</li><li><strong>ExpressLRS</strong> receiver for the control link from a RadioMaster transmitter</li><li><strong>GPS module</strong> feeding position to the flight controller and the ground station</li><li>Power and signal wiring <strong>soldered by hand</strong>, routed to fit the compact frame</li></ul></div></section>
+    <section class="prose"><h2>Ground station</h2><div><p>Telemetry rides the ExpressLRS link back down to the RadioMaster transmitter. The transmitter's built-in <strong>ExpressLRS Backpack</strong>, a small Wi-Fi radio inside the module, connects to the laptop's Wi-Fi and forwards that telemetry over the network as UDP packets. No extra telemetry radio is carried on the aircraft.</p><p>On the laptop, a <strong>Python</strong> ground station receives the stream and serves it as a live <strong>web dashboard</strong>, linked to an app that <strong>logs every flight</strong> for review afterwards:</p><ul><li>Live GPS position</li><li>Battery state</li><li>Flight data from the controller</li><li>Complete per-flight logs</li></ul></div></section>
+    <section class="prose"><h2>Result</h2><div><p>A flying sub-250 g quadcopter at about 170 g, with every flight streamed live to the dashboard and saved to the log.</p></div></section>
+    <a class="next" href="/projects/skillsusa/"><span class="label">Next project</span><span>SkillsUSA National Championship <span class="arrow" aria-hidden="true">→</span></span></a>
+  </div>
+</main>
+<footer class="ft mono">
+  <div class="wrap">
+    <span>© 2026 Logan Lawler</span>
+    <span>Hand-built. No frameworks.</span>
+  </div>
+</footer>
+</body>
+</html>
