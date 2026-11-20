@@ -13,9 +13,18 @@
     el.classList.add("flash");
   };
 
+  // Where to put a target: centred in the space under the header when it fits,
+  // otherwise its top a comfortable gap below the header (room for the highlight).
+  const targetY = (el) => {
+    const head = hd && getComputedStyle(hd).position === "sticky" ? hd.offsetHeight : 0;
+    const r = el.getBoundingClientRect();
+    const room = innerHeight - head;
+    const gap = r.height < room * 0.85 ? (room - r.height) / 2 : Math.min(64, room * 0.08);
+    return Math.max(0, Math.round(r.top + scrollY - head - gap));
+  };
+
   const go = (el) => {
-    const off = (hd ? hd.offsetHeight : 0) + 8;
-    const to = Math.max(0, Math.round(el.getBoundingClientRect().top + scrollY - off));
+    const to = targetY(el);
     const from = scrollY;
     const dist = to - from;
     stop();
@@ -58,6 +67,7 @@
   if (location.hash) {
     const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
     addEventListener("load", () => {
+      if (el && !el.matches(".tools li")) scrollTo(0, targetY(el));
       if (el && el.matches(".proj, .skill")) flash(el);
       if (el && el.matches(".tools li")) el.classList.add("tool-flash");
       history.replaceState(null, "", location.pathname + location.search);

@@ -5,11 +5,11 @@
 <script>document.documentElement.classList.add("js")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SkillsUSA National Championship · Logan Lawler</title>
-<meta name="description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology, against 26 other teams.">
+<meta name="description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology.">
 <meta name="theme-color" content="#f6f7f7">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="SkillsUSA National Championship · Logan Lawler">
-<meta property="og:description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology, against 26 other teams.">
+<meta property="og:description" content="Gold medal at the SkillsUSA national conference in Robotics & Automation Technology.">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://www.lawlerlogan.com/projects/skillsusa/">
 <meta property="og:url" content="https://www.lawlerlogan.com/projects/skillsusa/">
@@ -25,10 +25,10 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=20261120k">
-<script src="/assets/js/site.js?v=20261120k" defer></script>
-<script src="/assets/js/cursor.js?v=20261120k" defer></script>
-<script src="/assets/js/dots.js?v=20261120k" defer></script>
+<link rel="stylesheet" href="/assets/css/site.css?v=20261120o">
+<script src="/assets/js/site.js?v=20261120o" defer></script>
+<script src="/assets/js/cursor.js?v=20261120o" defer></script>
+<script src="/assets/js/dots.js?v=20261120o" defer></script>
 <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank]"}}]},"eagerness":"moderate"}]}</script>
 </head>
 <body>
@@ -49,7 +49,7 @@
     <div class="wrap">
       <a class="back mono" href="/#p-skillsusa"><span class="arrow" aria-hidden="true">←</span> All work</a>
       <h1 style="view-transition-name:t-skillsusa">SkillsUSA National Championship</h1>
-      <p class="lede">Gold medal at the SkillsUSA National Leadership &amp; Skills Conference in Robotics &amp; Automation Technology, against 26 other teams.</p>
+      <p class="lede">Gold medal at the SkillsUSA National Leadership &amp; Skills Conference in Robotics &amp; Automation Technology.</p>
       <dl class="spec">
         <div><dt class="label">Result</dt><dd>Gold · National Champion</dd></div>
         <div><dt class="label">When</dt><dd>Nov 2024 – Jun 2025</dd></div>
@@ -64,15 +64,15 @@
     <section class="prose"><h2>The challenge</h2><div><p>The 2025 SkillsUSA National Leadership &amp; Skills Conference in Atlanta brought together state champions from 24 states. Competing as a two-person team from Utica CSI with Niken Patel, the task was to build a working automated inspection cell from scratch in about eight hours, with a one-hour break.</p><p>Every team got the same fenceless training cell: a <strong><a class="kw" href="/skills/#t-yaskawa-6-axis">Yaskawa Motoman GP4</a></strong> six-axis robot, a <strong><a class="kw" href="/skills/#t-siemens-logo-plc">Siemens LOGO! PLC</a></strong> and a set of sensors. The <strong>robot program</strong> did the inspecting and sorting, reading the limit switch and inductive sensor directly through the robot's I/O. The PLC, programmed in <strong><a class="kw" href="/skills/#t-ladder-logic">ladder logic</a></strong>, ran the <strong>stack light</strong> that showed the cell's status, and at the end handled the vision system. The sequence:</p><ul><li>Pick each block from the <strong>slide</strong> and check all <strong>six faces</strong> for a hole, using a <strong>limit switch</strong></li><li><strong>No hole:</strong> place the block on the discard pile</li><li><strong>Hole found:</strong> use an <strong>inductive sensor</strong> to tell metal from non-metal, then sort the block into the matching pile</li><li><strong>Final requirement:</strong> replace the limit switch with a <strong>Cognex vision system</strong> that finds the hole, brought into the cell through the PLC</li></ul></div></section>
     <section class="prose"><h2>Hardest problem</h2><div><p>Blocks came down the slide in <strong>random order</strong>, so no drop point could be hard-coded. A pile could get three good blocks in a row, or none for a while, and every block still had to land in the next open spot of its own pile.</p><p>The fix was to stop thinking in a fixed sequence and track state instead. The robot program kept a running count of how many blocks had gone to each pile, and calculated each drop point from that pile's base position plus an offset for every block already placed. Building that logic into the robot program, rather than a fixed path, was what made the cell work with any loading order.</p></div></section>
     <section class="prose"><h2>Learning vision on the fly</h2><div><p>Neither teammate had used or programmed a machine-vision system before the competition. The Cognex camera was learned on the spot: setting up the image, teaching it what a hole looks like, tuning the inspection until it was reliable, and routing its pass/fail result through the PLC to the robot in place of the limit switch signal.</p><p>With no practiced routine to fall back on, it came down to reading the manual and testing in quick loops as the clock ran down, until the camera was reliably catching every hole.</p></div></section>
-    <section class="prose"><h2>Documentation</h2><div><p>Everything had to be handed off like a real cell: <strong>flowcharts</strong> of the control logic, <strong>safety lists</strong> and <strong>work cell layouts</strong>.</p></div></section>
-    <section class="prose"><h2>Result</h2><div><p><strong>Gold medal and national champion</strong>, ahead of 26 other teams. <a class="kw" href="/skills/#t-fanuc">FANUC</a> then invited both teammates to take its certification tests, and both passed. The bigger outcome was what the day taught:</p><ul><li><strong>Design logic around state, not sequence.</strong> Random loading forced the cell to keep track of what it had already done instead of assuming a fixed order. Counting parts and calculating positions from that count is the same approach real production cells use, and it made the program shorter and easier to debug, not longer.</li><li><strong>Learn new systems fast, under pressure.</strong> Integrating a vision system neither teammate had touched before, against the clock, came down to reading the documentation, testing in small steps and wiring its output into logic that already worked. That habit of learning a new tool on demand carried straight into later projects.</li></ul></div></section>
+    <section class="prose"><h2>Documentation</h2><div><p>Everything had to be handed off like a real cell: <strong>flowcharts</strong> of the control logic, <strong>safety lists</strong>, and <strong>work cell layouts</strong>.</p></div></section>
+    <section class="prose"><h2>Result</h2><div><p><strong>Gold medal and national champion</strong>. <a class="kw" href="/skills/#t-fanuc">FANUC</a> then invited both teammates to take its certification tests, and both passed. The bigger outcome was what the day taught:</p><ul><li><strong>Design logic around state, not sequence.</strong> Random loading forced the cell to keep track of what it had already done instead of assuming a fixed order. Counting parts and calculating positions from that count is the same approach real production cells use, and it made the program shorter and easier to debug, not longer.</li><li><strong>Learn new systems fast, under pressure.</strong> Integrating a vision system neither teammate had touched before, against the clock, came down to reading the documentation, testing in small steps, and wiring its output into logic that already worked. That habit of learning a new tool on demand carried straight into later projects.</li></ul></div></section>
     <div class="gallery gallery--3">
       <figure class="shot"><video class="media" controls muted playsinline preload="none" poster="/assets/img/skillsusa-robot-poster.webp" width="720" height="1280" style="--ar:9/16" aria-label="Training on CSI's Yaskawa robot cell: picking blocks from a gravity feed and checking them at a sensor box"><source src="/assets/video/skillsusa-robot.mp4" type="video/mp4"></video><figcaption class="label">Training on CSI's Yaskawa cell (video)</figcaption></figure>
       <figure class="shot"><img draggable="false" class="media" src="/assets/img/skillsusa-cell.webp" width="780" height="905" style="--ar:780/905" alt="CSI's Yaskawa training cell: a blue Yaskawa robot on its base plate with sensors and parts laid out on the table" loading="lazy" decoding="async"><figcaption class="label">CSI's Yaskawa training cell</figcaption></figure>
       <figure class="shot"><img draggable="false" class="media" src="/assets/img/skillsusa-medal.webp" width="725" height="967" style="--ar:725/967" alt="SkillsUSA Championships national champion medal in its case" loading="lazy" decoding="async"><figcaption class="label">National champion medal</figcaption></figure>
       <figure class="shot shot--wide"><img draggable="false" class="media" src="/assets/img/skillsusa-fanuc.webp" width="1046" height="687" style="--ar:1046/687" alt="Shaking hands with a FANUC representative beside a FANUC robot at the SkillsUSA national conference" loading="lazy" decoding="async"><figcaption class="label">With FANUC at the national conference</figcaption></figure>
     </div>
-    <a class="next" href="/projects/dbf/"><span class="label">Next project</span><span>AIAA Design/Build/Fly 2027 <span class="arrow" aria-hidden="true">→</span></span></a>
+    <a class="next" href="/projects/arcade/"><span class="label">Next project</span><span>Mini Arcade Machine <span class="arrow" aria-hidden="true">→</span></span></a>
   </div>
 </main>
 <footer class="ft mono">
