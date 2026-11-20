@@ -31,9 +31,10 @@
   --ink-3: #7f8789;
   --rule: rgb(20 24 25 / 0.1);
   --rule-2: rgb(20 24 25 / 0.2);
-  --accent: #07806f;
+  --accent: #8a6500;      /* deep gold: links, labels, hover text (4.9:1 on the page background) */
   --surface: #ffffff;
-  --accent-2: #12a894;
+  --accent-2: #9a7100;    /* gold for small numbers and secondary labels */
+  --hl: #f5c400;          /* bright yellow: highlights and decoration only, never text */
   --serif: "STIX Two Text", "Times New Roman", Times, serif;
   --mono: "Martian Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
   --gutter: clamp(16px, 4vw, 48px);
@@ -67,7 +68,7 @@ img, svg, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
 a:hover { color: var(--accent); }
 :focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
-::selection { background: var(--accent); color: var(--bg); }
+::selection { background: var(--hl); color: var(--ink); }
 h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
 ul { padding: 0; list-style: none; }
 h1, h2, h3 { font-weight: 400; line-height: 1.05; letter-spacing: -0.015em; }
@@ -274,8 +275,8 @@ a:hover .arrow { transform: translateX(4px); }
 /* Target highlight after a linked scroll */
 .flash { animation: flash 1.6s var(--ease); border-radius: 10px; }
 @keyframes flash {
-  0%, 35% { background-color: rgb(18 168 148 / 0.09); box-shadow: 0 0 0 clamp(12px, 2vw, 24px) rgb(18 168 148 / 0.09); }
-  100% { background-color: rgb(18 168 148 / 0); box-shadow: 0 0 0 clamp(12px, 2vw, 24px) rgb(18 168 148 / 0); }
+  0%, 35% { background-color: rgb(245 196 0 / 0.18); box-shadow: 0 0 0 clamp(12px, 2vw, 24px) rgb(245 196 0 / 0.18); }
+  100% { background-color: rgb(245 196 0 / 0); box-shadow: 0 0 0 clamp(12px, 2vw, 24px) rgb(245 196 0 / 0); }
 }
 
 /* ── Contact / footer ─────────────────────────────────── */
@@ -395,7 +396,7 @@ a:hover .arrow { transform: translateX(4px); }
 .shot img { border: 1px solid var(--rule); }
 .shot figcaption { margin-top: 10px; }
 .media--plain { object-fit: contain; background: #fff; }
-.shot--wide { grid-column: 1 / -1; }
+.shot--wide { grid-column: 1 / -1; max-width: min(100%, 680px); } /* a single wide image: full row, but not the full content width */
 .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 640px) { .gallery { grid-template-columns: minmax(0, 1fr); } }
 .gallery--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -403,7 +404,7 @@ a:hover .arrow { transform: translateX(4px); }
 video.media { display: block; height: auto; background: #000; }
 
 /* ── Touch screens ────────────────────────────────────── */
-html { -webkit-tap-highlight-color: rgb(7 128 111 / 0.12); }
+html { -webkit-tap-highlight-color: rgb(245 196 0 / 0.22); }
 @media (pointer: coarse) {
   /* finger-sized tap targets (about 44px tall) without changing the look */
   .nav { gap: clamp(10px, 3vw, 24px); }
@@ -441,7 +442,7 @@ html { -webkit-tap-highlight-color: rgb(7 128 111 / 0.12); }
 .prose strong a.kw, .prose a.kw strong { color: var(--accent); }
 .tools li { scroll-margin-top: 30vh; }
 .tools li.tool-flash { animation: tool-flash 1.8s ease-out both; }
-@keyframes tool-flash { 0%, 55% { color: var(--accent); background: color-mix(in srgb, var(--accent-2) 14%, transparent); } 100% { color: inherit; background: transparent; } }
+@keyframes tool-flash { 0%, 55% { color: var(--accent); background: color-mix(in srgb, var(--hl) 22%, transparent); } 100% { color: inherit; background: transparent; } }
 
 /* ── Mobile pass ──────────────────────────────────────── */
 /* Keep content out of the notch and home-indicator areas (viewport-fit=cover). */
@@ -508,4 +509,9 @@ img, video { -webkit-user-drag: none; user-select: none; -webkit-user-select: no
   .xp__sep { display: none; }
   .xp__org .brand__logo { vertical-align: middle; }
   .xp__org .brand--tall .brand__logo { height: 1.5em; }
+}
+
+/* Computers: show the site at 80% scale (as browser zoom 80% looks). Phones and tablets are unchanged. */
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  html { zoom: 0.8; }
 }

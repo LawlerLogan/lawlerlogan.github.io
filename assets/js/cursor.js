@@ -15,7 +15,7 @@
 
   const N = 90, HIST = 28;
   const GREYS = ["#eef0f1", "#e8ebec", "#e2e6e7", "#dce0e1"];
-  const BLUES = ["#c8eee7", "#b6e8df", "#a3e1d6", "#90dace"]; // site cyan-green, over anything clickable
+  const BLUES = ["#fcefc0", "#fae6a2", "#f8dc84", "#f6d266"]; // site yellow, over anything clickable
   const STEPS = 8;
   // SHADES[i][s]: grey i blended s/(STEPS-1) of the way to its blue.
   const SHADES = GREYS.map((a, i) => {
@@ -49,6 +49,9 @@
 
   const size = () => {
     w = innerWidth; h = innerHeight;
+    // the page may be zoomed (0.8 on computers): size the layer in page units so it still covers the whole window
+    const z = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
+    cv.style.width = w / z + "px"; cv.style.height = h / z + "px";
     cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
@@ -65,8 +68,21 @@
     let R = null;
     if (hoverEl && hoverEl.isConnected) {
       // a project title link covers its whole row, so outline the row
-      const box = hoverEl.matches(".proj__t a") ? hoverEl.closest(".proj") : hoverEl;
-      const b = box.getBoundingClientRect();
+      const row = hoverEl.matches(".proj__t a");
+      let b = (row ? hoverEl.closest(".proj") : hoverEl).getBoundingClientRect();
+      if (!row) {
+        // hug what is actually visible (text, images), not padding: e.g. the tall "Next project" link
+        let l = Infinity, t = Infinity, r = -Infinity, bt = -Infinity;
+        // text only: block-level children (like the "Next project" label) span the full width, their text does not
+        const tw = document.createTreeWalker(hoverEl, NodeFilter.SHOW_TEXT), rg = document.createRange();
+        for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+          if (!n.textContent.trim()) continue;
+          rg.selectNodeContents(n);
+          for (const q of rg.getClientRects()) if (q.width && q.height) { l = Math.min(l, q.left); t = Math.min(t, q.top); r = Math.max(r, q.right); bt = Math.max(bt, q.bottom); }
+        }
+        for (const m of hoverEl.querySelectorAll("img, svg")) { const q = m.getBoundingClientRect(); if (q.width) { l = Math.min(l, q.left); t = Math.min(t, q.top); r = Math.max(r, q.right); bt = Math.max(bt, q.bottom); } }
+        if (r > l && bt > t) b = { left: l, top: t, width: r - l, height: bt - t };
+      }
       if (b.width && b.height && b.width <= w) R = { x: b.left - 7, y: b.top - 6, w: b.width + 14, h: b.height + 12 };
     }
     cling += ((R ? 1 : 0) - cling) * 0.14;

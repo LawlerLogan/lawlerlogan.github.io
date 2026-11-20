@@ -212,9 +212,13 @@
     },
   };
 
-  const COLORS = ["#0e9c88", "#2fc4ad", "#7fdccd", "#a9b3b5", "#6f7a7c", "#3d4547"];
+  const COLORS = ["#d9a300", "#f5c400", "#ffe07a", "#a9b3b5", "#6f7a7c", "#3d4547"];
   const SIZES = [1.3, 1.9, 2.6];
-  const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) * 0.8;
+  // Seeded random numbers: each shape scatters its dots the same way on every load,
+  // so its size and position never change between refreshes.
+  let seed = 1;
+  const rnd = () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const gauss = () => (rnd() + rnd() + rnd() - 1.5) * 0.8;
 
   function build(name, n) {
     const c = document.createElement("canvas");
@@ -226,13 +230,14 @@
     const filled = [];
     for (let i = 0; i < 160000; i += 2) if (a[i * 4 + 3] > 140) filled.push(i);
     const pts = new Float32Array(n * 3), col = new Uint8Array(n);
-    const k1 = 1.6 + Math.random(), k2 = 2.2 + Math.random(), ph = Math.random() * 6;
+    seed = [...String(name)].reduce((s, ch) => (Math.imul(s, 31) + ch.charCodeAt(0)) | 0, 7) + n;
+    const k1 = 1.6 + rnd(), k2 = 2.2 + rnd(), ph = rnd() * 6;
     for (let i = 0; i < n; i++) {
-      const p = filled[(Math.random() * filled.length) | 0];
-      const X = ((p % 400) + Math.random() * 2 - 200) / 200;
-      const Z = (200 - ((p / 400) | 0) - Math.random()) / 200;
+      const p = filled[(rnd() * filled.length) | 0];
+      const X = ((p % 400) + rnd() * 2 - 200) / 200;
+      const Z = (200 - ((p / 400) | 0) - rnd()) / 200;
       // depth: a smooth wave plus scatter, so side-on it is a rippled cloud
-      const stray = Math.random() < 0.08;
+      const stray = rnd() < 0.08;
       const Y = 0.42 * Math.sin(k1 * X + ph) + 0.3 * Math.cos(k2 * Z - ph) + gauss() * (stray ? 0.55 : 0.22);
       pts[i * 3] = X + (stray ? gauss() * 0.04 : 0);
       pts[i * 3 + 1] = Y;
@@ -267,15 +272,54 @@
     const ctx = cv.getContext("2d");
     const dpr = Math.min(1.5, devicePixelRatio || 1);
     const data = build(cv.dataset.shape, innerWidth < 760 ? 6000 : 11000);
+    // true reach of this shape: widest horizontally at any yaw, tallest at any tilt
+    let rH = 0, rV = 0;
+    for (let i = 0; i < data.n; i++) { const x = data.pts[i * 3], y = data.pts[i * 3 + 1], z = data.pts[i * 3 + 2]; rH = Math.max(rH, Math.hypot(x, y)); rV = Math.max(rV, Math.hypot(x, y, z)); } // tilt mixes all three axes into screen height
+    // Exact screen footprint over a full turn (same yaw/tilt maths as draw), so the shape can fill its box
+    // as large as possible without any part ever leaving it.
+    const front = { x0: 0, x1: 0, z0: 0, z1: 0 };
+    for (let i = 0; i < data.n; i++) { const x = data.pts[i * 3], z = data.pts[i * 3 + 2]; front.x0 = Math.min(front.x0, x); front.x1 = Math.max(front.x1, x); front.z0 = Math.min(front.z0, z); front.z1 = Math.max(front.z1, z); }
+    const reach = { x0: 0, x1: 0, z0: 0, z1: 0 };
+    for (let k = 0; k < 96; k++) {
+      const a = (k / 96) * Math.PI * 2, tl = 0.32 * Math.sin(a / 2) ** 2;
+      const ca = Math.cos(a), sa = Math.sin(a), ct = Math.cos(tl), stl = Math.sin(tl);
+      for (let i = 0; i < data.n; i++) {
+        const x = data.pts[i * 3], y = data.pts[i * 3 + 1], z = data.pts[i * 3 + 2];
+        const x1 = x * ca - y * sa, z2 = (x * sa + y * ca) * stl + z * ct;
+        if (x1 < reach.x0) reach.x0 = x1; if (x1 > reach.x1) reach.x1 = x1;
+        if (z2 < reach.z0) reach.z0 = z2; if (z2 > reach.z1) reach.z1 = z2;
+      }
+    }
     let st = stamps(dpr);
     const cx = parseFloat(cv.dataset.cx || "0.5");
     let w = 0, h = 0, img = null, buf = null, raf = 0, last = 0, seen = false;
     // yaw: current angle; extra: spin added by dragging, which fades away.
-    let yaw = 0, extra = 0, dir = 1, dragging = false, lastX = 0;
+    // Start ~45 deg before the readable front so the shape turns into view, rather than starting on it and turning away.
+    let yaw = -0.8, extra = 0, dir = 1, dragging = false, lastX = 0;
 
     const geo = () => {
       const narrow = innerWidth < 760; // small canvas beside the heading: center the shape in it
-      return { S: Math.min(w, h) * 0.42, ox: w * (narrow ? 0.5 : cx), oy: h * (narrow ? 0.5 : 0.47) };
+      const fit = narrow || cv.dataset.fit === "1"; // canvas already sized to the free space: centre the shape in it
+      const nudge = cv.dataset.fit === "1" && !narrow; // project headers: sit a touch up and right of centre
+      const pad = 6 * dpr;
+      if (cv.dataset.fit === "2") {
+        const spanX = reach.x1 - reach.x0, spanZ = reach.z1 - reach.z0, edge = pad + 3 * dpr; // + dot size
+        const S2 = Math.min((w - 2 * edge) / spanX, (h - 2 * edge) / spanZ);
+        return { S: S2, ox: w / 2 - S2 * (reach.x1 + reach.x0) / 2, oy: h / 2 + S2 * (reach.z1 + reach.z0) / 2 };
+      }
+      if (cv.dataset.fit === "3") {
+        return { S: +cv.dataset.s * dpr, ox: +cv.dataset.ox * dpr, oy: +cv.dataset.oy * dpr };
+      }
+      let S = Math.min(w, h) * (cv.dataset.fit === "1" ? 0.48 : 0.42);
+      if (cv.dataset.fit === "1") S = Math.min(S, (w / 2 - 6 * dpr) / rH, (h / 2 - 6 * dpr) / rV); // never larger than its canvas
+      let ox = w * (fit ? (nudge ? 0.66 : 0.5) : cx), oy = h * (fit ? (nudge ? 0.42 : 0.5) : 0.47);
+      if (cv.dataset.fit === "1") {
+        // keep the whole shape inside the canvas at every angle (it is widest side-on)
+        const pad = 6 * dpr, mx = S * rH + pad, my = S * rV + pad;
+        ox = Math.min(Math.max(ox, mx), w - mx);
+        oy = Math.min(Math.max(oy, my), h - my);
+      }
+      return { S, ox, oy };
     };
 
     const draw = () => {
@@ -318,8 +362,110 @@
 
     // Phones: on project pages, sit the shape beside the first two lines of the title
     // (measured, since titles wrap differently) instead of floating above it.
+    // Home hero: fit the canvas into the empty space beside the text, measured,
+    // so the shape never sits on the name, tagline, or highlights at any window shape.
+    const textRight = (el) => {
+      if (!el) return 0;
+      const rg = document.createRange(); rg.selectNodeContents(el);
+      let m = 0; for (const q of rg.getClientRects()) if (q.width) m = Math.max(m, q.right);
+      return m;
+    };
+    const Z = () => parseFloat(getComputedStyle(document.documentElement).zoom) || 1; // page zoom (0.8 on computers)
+    const placeFit = (hero, lineSel, notesSel) => {
+      const R = hero.getBoundingClientRect();
+      const name = hero.querySelector("h1"), line = hero.querySelector(lineSel), notes = hero.querySelector(notesSel);
+      const col = (hero.querySelector(".wrap") || hero).getBoundingClientRect(); // stay inside the content column
+      const nr = name.getBoundingClientRect(), lr = line ? line.getBoundingClientRect() : nr, no = notes ? notes.getBoundingClientRect() : null;
+      const gap = Math.max(16, col.width * 0.03), edge = col.right;
+      const top = nr.top, nameR = textRight(name), lineR = Math.max(nameR, textRight(line));
+      const cands = [
+        { l: nameR + gap, t: top, b: lr.top - gap / 2 },                                   // beside the name only
+        { l: lineR + gap, t: top, b: (no ? no.top : R.bottom) - gap },                     // beside name and tagline
+        { l: Math.max(lineR, no ? no.right : 0) + gap, t: top, b: (no ? no.bottom : R.bottom) }, // right of everything
+      ].map((c) => ({ ...c, w: edge - c.l, h: c.b - c.t })).filter((c) => c.w > 0 && c.h > 0);
+      const best = cands.sort((a, b) => Math.min(b.w, b.h * 1.1) - Math.min(a.w, a.h * 1.1))[0];
+      if (!best) { cv.style.display = "none"; return; }
+      cv.style.display = "";
+      // Let the shape spill a little past the free space toward the text and above and below,
+      // so it reads larger and only just overlaps the text edge, while staying centred on the space.
+      const bleed = Math.min(80, Math.min(best.w, best.h) * 0.16 + 12);
+      const l = Math.max(R.left, best.l - bleed), t = Math.max(R.top, best.t - bleed), b = Math.min(R.bottom, best.b + bleed);
+      const rr = Math.min(R.right - 8, edge + bleed * 1.6); // reach a little past the column on the right
+      Object.assign(cv.style, { left: Math.round(l - R.left) + "px", top: Math.round(t - R.top) + "px",
+        width: Math.round(rr - l) + "px", height: Math.round(b - t) + "px", right: "auto", bottom: "auto" });
+      cv.dataset.fit = "1";
+    };
+
     const place = () => {
-      const sec = cv.closest(".pg-hero"), h1 = sec && sec.querySelector("h1");
+      const hero = cv.closest(".hero");
+      if (hero) { cv.removeAttribute("style"); delete cv.dataset.fit; return; } // home: original placement, unchanged
+      const pg = cv.closest(".pg-hero");
+      if (pg) {
+        if (innerWidth < 760) {
+          // phones: the original layout. The title is narrowed by CSS; the shape sits beside its first lines.
+          cv.removeAttribute("style"); delete cv.dataset.fit;
+          const t1 = pg.querySelector("h1"), tr = t1.getBoundingClientRect();
+          const lh = parseFloat(getComputedStyle(t1).lineHeight) || tr.height / 3;
+          cv.style.top = Math.round(tr.top - pg.getBoundingClientRect().top) + "px";
+          cv.style.height = Math.round(Math.max(lh * 2, Math.min(tr.height, lh * 3))) + "px";
+          return;
+        }
+        const R = pg.getBoundingClientRect(), col = pg.querySelector(".wrap").getBoundingClientRect();
+        const back = pg.querySelector(".back"), spec = pg.querySelector(".spec");
+        const h1 = pg.querySelector("h1"), lede = pg.querySelector(".lede");
+        const gapX = Math.max(32, col.width * 0.05);
+        const top = (back ? back.getBoundingClientRect().top : R.top) - 48;
+        const b = (spec ? spec.getBoundingClientRect().top : R.bottom) - 16;
+        const rr = Math.min(R.right - 8, col.right + 24);
+        // Candidate areas: start below any title line (or above the back link), and reach left only as far as
+        // the text lines beside that area allow. Pick the one where this shape draws largest over a full turn.
+        const spanX = reach.x1 - reach.x0, spanZ = reach.z1 - reach.z0;
+        const lines = [];
+        for (const el of [h1, lede]) { const rg = document.createRange(); rg.selectNodeContents(el); for (const q of rg.getClientRects()) if (q.width) lines.push(q); }
+        const tops = [top, ...lines.map((q) => q.bottom - 4)];
+        const boxes = tops.map((t0) => {
+          const t = Math.max(R.top, t0);
+          let l = Math.max(0, ...lines.filter((q) => q.bottom > t + 6 && q.top < b).map((q) => q.right)) + gapX;
+          let padl = 0;
+          if (spanX / spanZ > 1.6) { padl = Math.min(140, (rr - l) * 0.26); l -= padl; } // long, low shapes (the ship): extra room over the text edge for the turn only
+          return { l, t, padl, w: rr - l, h: b - t, s: Math.min((rr - l) / spanX, (b - t) / spanZ) };
+        }).filter((q) => q.w > 120 && q.h > 120);
+        if (!boxes.length) { cv.style.display = "none"; return; }
+        const q = boxes.sort((x, y) => y.s - x.s)[0];
+        const z = Z();
+        Object.assign(cv.style, { display: "", left: Math.round((q.l - R.left) / z) + "px", top: Math.round((q.t - R.top) / z) + "px",
+          width: Math.round(q.w / z) + "px", height: Math.round(q.h / z) + "px", right: "auto", bottom: "auto" });
+        cv.dataset.fit = "2";
+        // per-shape tweaks on project pages: a little larger, and the ship nudged right
+        const BOOST = { boat: 1.14, tow: 1.12 }, SHIFT = { boat: 0.05 };
+        const shape = cv.dataset.shape;
+        if (q.padl || BOOST[shape]) {
+          const e = 10;                                     // css px margin incl. dot size
+          const nl = q.l + q.padl, nw = rr - nl, nh = b - q.t; // visible box (without the extra left room)
+          const mx = (front.x0 + front.x1) / 2, mz = (front.z0 + front.z1) / 2;
+          let cy = (Math.max(R.top, top) + b) / 2;               // centred on the full header height
+          const lim = { l: R.left + 8, r: R.right - 8, t: R.top + 4, b: (spec ? spec.getBoundingClientRect().top : R.bottom) - 4 };
+          const need = (s, x) => ({ l: x - s * (mx - reach.x0) - e, r: x + s * (reach.x1 - mx) + e, t: cy - s * (reach.z1 - mz) - e, b: cy + s * (mz - reach.z0) + e });
+          const fitK = (s, x) => { const n = need(s, x); return Math.min(1, (x - lim.l) / (x - n.l), (lim.r - x) / (n.r - x), (cy - lim.t) / (cy - n.t), (lim.b - cy) / (n.b - cy)); };
+          // base: the approved size and spot (centred in the visible box, shrunk only if the turn would leave the page)
+          const cx0 = nl + nw / 2;
+          let S = Math.min((nw + q.padl - 2 * e) / spanX, (nh - 2 * e) / spanZ);
+          S *= Math.min(1, fitK(S, cx0) * 0.98);
+          // then the tweak: a little larger and a touch right; give back the shift first, then size, if the page edge is reached
+          S *= BOOST[shape] || 1;
+          // use the full height: centre the turning sweep (not the side view) between the limits so the larger size fits
+          const cyFit = (lim.t + e + S * (reach.z1 - mz) + lim.b - e - S * (mz - reach.z0)) / 2;
+          if (fitK(S, nl + nw / 2) < 1) cy = cyFit;
+          let cx = Math.max(cx0, Math.min(cx0 + nw * (SHIFT[shape] || 0), lim.r - S * (reach.x1 - mx) - e));
+          const k = fitK(S, cx); if (k < 1) S *= k * 0.98;
+          const n = need(S, cx);
+          Object.assign(cv.style, { left: Math.round((n.l - R.left) / z) + "px", top: Math.round((n.t - R.top) / z) + "px", width: Math.round((n.r - n.l) / z) + "px", height: Math.round((n.b - n.t) / z) + "px" });
+          const cl = n.l, ct = n.t;
+          Object.assign(cv.dataset, { fit: "3", s: S / z, ox: (cx - S * mx - cl) / z, oy: (cy + S * mz - ct) / z });
+        }
+        return;
+      }
+      const sec = null, h1 = null;
       if (!h1) return;
       if (innerWidth >= 760) { cv.style.top = cv.style.height = ""; return; }
       const lh = parseFloat(getComputedStyle(h1).lineHeight) || h1.getBoundingClientRect().height / 3;
@@ -329,6 +475,17 @@
     };
     place();
     addEventListener("resize", place, { passive: true });
+    // the hero text slides up into place on load; measure again once it settles
+    // Measure again whenever the page settles (fonts in, load done, text finished sliding in, prerender shown),
+    // so every refresh lands on the same final size and position regardless of timing.
+    let pend = 0;
+    const placeSoon = () => { if (!pend) pend = requestAnimationFrame(() => { pend = 0; place(); }); };
+    const heroSec = cv.closest(".hero, .pg-hero");
+    if (heroSec) for (const ev of ["animationend", "transitionend"]) heroSec.addEventListener(ev, placeSoon, { passive: true });
+    addEventListener("load", placeSoon);
+    if (document.fonts) { document.fonts.addEventListener?.("loadingdone", placeSoon); document.fonts.ready.then(placeSoon); }
+    document.addEventListener("prerenderingchange", placeSoon);
+    setTimeout(placeSoon, 1500);
     if (document.fonts) document.fonts.ready.then(place);
 
     new ResizeObserver(() => {
