@@ -78,75 +78,75 @@
       g.restore();
     },
 
-    arm(g) { // SkillsUSA: Yaskawa GP7-class 6-axis robot, true side view in its reference pose.
-      // Proportions from Yaskawa's GP7 dimension drawing (mm): base→L axis 330, L→U 385 (lower arm upright),
-      // U→top of forearm 62, U→wrist 40 + 340 forward, wrist→flange 80, overall height 777.
+    arm(g) { // SkillsUSA: CSI's Yaskawa 6-axis robot, traced from a photo with its rounded castings (coordinates are traced pixels)
       g.save();
-      g.translate(200 - 195 * 0.44, 200 + 395 * 0.44); g.scale(0.44, -0.44); // millimetres, y up, L axis at (0, 330)
-      const rr = (x, y, w, h, r) => { g.beginPath(); g.roundRect(x, y, w, h, r); g.fill(); };
-      rr(-128, 0, 256, 22, 4);                                             // mounting plate
-      poly(g, -112, 22, 112, 22, 98, 150, -98, 150);                       // S-axis base
-      rr(-96, 146, 186, 186, 34);                                          // turret up to the L axis
-      ell(g, 6, 330, 84, 84);                                              // L-axis motor housing
-      poly(g, -56, 330, 64, 330, 56, 715, -50, 715);                       // lower arm, upright, slight taper
-      ell(g, 0, 715, 70, 70);                                              // U-axis housing
-      g.beginPath();                                                       // forearm: U motor at the back, tapering forward to the wrist
-      g.moveTo(-118, 700); g.quadraticCurveTo(-122, 777, -60, 777);
-      g.lineTo(300, 777); g.quadraticCurveTo(352, 776, 360, 752);
-      g.lineTo(360, 684); g.quadraticCurveTo(340, 672, 300, 676);
-      g.lineTo(60, 652); g.quadraticCurveTo(-110, 640, -118, 700);
-      g.closePath(); g.fill();
-      rr(344, 680, 80, 78, 18);                                            // B-axis wrist
-      rr(424, 690, 32, 58, 6);                                             // T-axis flange (Ø60)
-      rr(456, 682, 26, 74, 4);                                             // gripper body
-      g.fillRect(482, 732, 46, 14); g.fillRect(482, 692, 46, 14);          // fingers
+      const k = 0.377; g.translate(200 - 478 * k, 200 - 522 * k); g.scale(k, k);
+      poly(g, 250, 915, 640, 895, 690, 985, 270, 1000);                    // mounting plate
+      poly(g, 338, 800, 575, 795, 600, 955, 330, 962);                     // S-axis base
+      g.beginPath();                                                       // waist: curves out from under the shoulder, then straight down
+      g.moveTo(410, 514); g.quadraticCurveTo(340, 518, 340, 600); g.lineTo(342, 802);
+      g.lineTo(578, 800); g.lineTo(574, 560); g.quadraticCurveTo(560, 520, 500, 512); g.closePath(); g.fill();
+      ell(g, 505, 610, 95, 100);                                           // L-axis shoulder cover
+      g.beginPath();                                                       // lower arm: curved front edge, big round elbow housing
+      g.moveTo(492, 500); g.quadraticCurveTo(562, 432, 588, 322); g.lineTo(600, 274);
+      g.bezierCurveTo(660, 222, 746, 262, 744, 400);
+      g.bezierCurveTo(742, 482, 690, 548, 600, 562); g.lineTo(540, 592); g.closePath(); g.fill();
+      g.beginPath();                                                       // forearm: rounded rear cap and a rounded nose into the elbow
+      g.moveTo(300, 60); g.lineTo(568, 166);
+      g.bezierCurveTo(636, 192, 640, 262, 596, 296);
+      g.lineTo(262, 216);
+      g.bezierCurveTo(196, 204, 196, 74, 300, 60); g.fill();
+      g.beginPath(); g.roundRect(252, 222, 104, 86, 22); g.fill();         // wrist
+      g.beginPath(); g.roundRect(228, 326, 165, 58, 8); g.fill();          // gripper body
+      g.beginPath(); g.roundRect(276, 384, 22, 88, 6); g.fill(); g.beginPath(); g.roundRect(306, 384, 22, 88, 6); g.fill(); // fingers
       cut(g, () => {
-        const ring = (x, y, r, w) => { g.lineWidth = w; g.beginPath(); g.arc(x, y, r, 0, 7); g.stroke(); };
-        ring(6, 330, 52, 9); ell(g, 6, 330, 16, 16);                       // L axis
-        ring(0, 715, 42, 8); ell(g, 0, 715, 13, 13);                       // U axis
-        ring(384, 719, 22, 7);                                             // B axis
-        line(g, 7, -110, 150, 110, 150);                                   // base / turret seam
-        line(g, 6, 344, 680, 344, 758);                                    // forearm / wrist joint
+        line(g, 12, 262, 222, 596, 302);                                   // forearm underside
+        line(g, 12, 236, 318, 396, 318);                                   // wrist / gripper
+        line(g, 10, 338, 800, 580, 798);                                   // waist / base
+        g.lineWidth = 12; g.beginPath(); g.arc(505, 610, 60, 0, 7); g.stroke(); ell(g, 505, 610, 18, 18); // shoulder axis
+        g.lineWidth = 10; g.beginPath(); g.arc(668, 300, 30, 0, 7); g.stroke();                            // elbow axis
+        g.save(); g.translate(438, 132); g.rotate(0.37);
+        g.font = "800 50px 'Martian Mono', ui-monospace, monospace"; g.textAlign = "center"; g.textBaseline = "middle";
+        g.fillText("YASKAWA", 0, 0); g.restore();
       });
       g.restore();
-      cut(g, () => {                                                       // name on the forearm (drawn unflipped)
-        g.font = "800 13px 'Martian Mono', ui-monospace, monospace"; g.textAlign = "center"; g.textBaseline = "middle";
-        g.fillText("YASKAWA", 200 + (130 - 195) * 0.44, 200 + (395 - 716) * 0.44);
-      });
     },
 
-    tow(g) { // DBF: the RCAT aircraft, top view, nose up, towing the sensor
-      // fuselage: round nose cone, body, tapering tail boom
+    tow(g) { // DBF: the RCAT aircraft, top-down, proportioned from the team render. Nose up.
+      // fuselage: long ogive nose cone, carbon body, tapering tail boom
       g.beginPath();
-      g.moveTo(178, 70); g.bezierCurveTo(178, 26, 222, 26, 222, 70);
-      g.lineTo(222, 150); g.bezierCurveTo(220, 200, 210, 250, 207, 300);
-      g.lineTo(193, 300); g.bezierCurveTo(190, 250, 180, 200, 178, 150); g.closePath(); g.fill();
-      // high wing: straight, slightly tapered, rounded tips
+      g.moveTo(200, 28);
+      g.bezierCurveTo(214, 30, 223, 70, 223, 112);
+      g.lineTo(223, 196);
+      g.bezierCurveTo(222, 250, 210, 312, 207, 352);
+      g.lineTo(193, 352);
+      g.bezierCurveTo(190, 312, 178, 250, 177, 196);
+      g.lineTo(177, 112);
+      g.bezierCurveTo(177, 70, 186, 30, 200, 28);
+      g.fill();
+      // high wing: straight leading edge, slight taper, rounded tips
       g.beginPath();
-      g.moveTo(40, 120); g.lineTo(360, 120); g.quadraticCurveTo(376, 122, 374, 136);
-      g.lineTo(366, 158); g.lineTo(220, 168); g.lineTo(180, 168); g.lineTo(34, 158);
-      g.lineTo(26, 136); g.quadraticCurveTo(24, 122, 40, 120); g.closePath(); g.fill();
-      // twin wing-mounted motors with props
-      for (const x of [132, 268]) {
-        ell(g, x, 112, 11, 34);                                            // nacelle, well ahead of the wing
-        ell(g, x, 76, 7, 7);                                               // spinner
-        ell(g, x, 74, 44, 5);                                              // prop, seen from above
+      g.moveTo(34, 154); g.lineTo(366, 154);
+      g.quadraticCurveTo(382, 155, 382, 168); g.lineTo(380, 186); g.quadraticCurveTo(378, 198, 364, 198);
+      g.lineTo(224, 208); g.lineTo(176, 208); g.lineTo(36, 198);
+      g.quadraticCurveTo(22, 198, 20, 186); g.lineTo(18, 168); g.quadraticCurveTo(18, 155, 34, 154);
+      g.fill();
+      // twin wing-mounted motors with two-blade props
+      for (const x of [122, 278]) {
+        ell(g, x, 146, 10, 28);                                            // nacelle, ahead of the wing
+        ell(g, x, 116, 6, 6);                                              // spinner
+        ell(g, x, 114, 46, 4.5);                                           // prop, seen from above
       }
-      // tail: horizontal stabilizer and fin
-      poly(g, 200, 278, 266, 286, 266, 302, 200, 306, 134, 302, 134, 286);
-      g.fillRect(197, 262, 6, 46);
-      // tow line and sensor
-      g.setLineDash([9, 6]); g.lineCap = "butt";
-      g.lineWidth = 3; g.beginPath(); g.moveTo(200, 308); g.quadraticCurveTo(202, 340, 220, 356); g.stroke();
-      g.setLineDash([]);
-      ell(g, 228, 370, 9, 20, -0.45);
-      line(g, 4, 234, 383, 246, 394); line(g, 4, 228, 387, 224, 398);
+      // tail: tapered horizontal stabilizer and the fin
+      poly(g, 200, 316, 262, 322, 270, 330, 268, 344, 200, 348, 132, 344, 130, 330, 138, 322);
+      g.fillRect(197, 296, 6, 60);
       cut(g, () => {
-        line(g, 3, 180, 72, 220, 72);                                      // nose cone seam
-        line(g, 3, 40, 150, 120, 154); line(g, 3, 280, 154, 360, 150);     // ailerons
-        line(g, 3, 140, 296, 260, 296);                                    // elevator
-        line(g, 3, 186, 120, 186, 168); line(g, 3, 214, 120, 214, 168);    // wing–fuselage joint
-        for (const x of [132, 268]) line(g, 3, x - 12, 120, x + 12, 120); // nacelle meets the wing
+        line(g, 3, 179, 110, 221, 110);                                    // nose cone seam
+        line(g, 3, 40, 186, 140, 191); line(g, 3, 260, 191, 360, 186);     // aileron hinges
+        line(g, 3, 140, 186, 140, 200); line(g, 3, 260, 186, 260, 200);    // aileron / flap split
+        line(g, 3, 150, 192, 178, 194); line(g, 3, 222, 194, 250, 192);    // flap hinges
+        line(g, 3, 138, 336, 262, 336);                                    // elevator hinge
+        for (const x of [122, 278]) line(g, 3, x - 12, 156, x + 12, 156);  // nacelle meets the wing
       });
     },
 
@@ -267,7 +267,7 @@
     const ctx = cv.getContext("2d");
     const dpr = Math.min(1.5, devicePixelRatio || 1);
     const data = build(cv.dataset.shape, innerWidth < 760 ? 6000 : 11000);
-    const st = stamps(dpr);
+    let st = stamps(dpr);
     const cx = parseFloat(cv.dataset.cx || "0.5");
     let w = 0, h = 0, img = null, buf = null, raf = 0, last = 0, seen = false;
     // yaw: current angle; extra: spin added by dragging, which fades away.
@@ -316,7 +316,23 @@
     const play = () => { if (!raf && !still) { last = 0; raf = requestAnimationFrame(frame); } };
     const pause = () => { cancelAnimationFrame(raf); raf = 0; };
 
+    // Phones: on project pages, sit the shape beside the first two lines of the title
+    // (measured, since titles wrap differently) instead of floating above it.
+    const place = () => {
+      const sec = cv.closest(".pg-hero"), h1 = sec && sec.querySelector("h1");
+      if (!h1) return;
+      if (innerWidth >= 760) { cv.style.top = cv.style.height = ""; return; }
+      const lh = parseFloat(getComputedStyle(h1).lineHeight) || h1.getBoundingClientRect().height / 3;
+      cv.style.top = Math.round(h1.getBoundingClientRect().top - sec.getBoundingClientRect().top) + "px";
+      const tall = Math.min(h1.getBoundingClientRect().height, lh * 3);
+      cv.style.height = Math.round(Math.max(lh * 2, tall)) + "px";
+    };
+    place();
+    addEventListener("resize", place, { passive: true });
+    if (document.fonts) document.fonts.ready.then(place);
+
     new ResizeObserver(() => {
+      st = stamps(dpr * Math.max(0.45, Math.min(1, Math.min(cv.clientWidth, cv.clientHeight) / 320)));
       w = cv.width = Math.round(cv.clientWidth * dpr);
       h = cv.height = Math.round(cv.clientHeight * dpr);
       if (w && h) { img = ctx.createImageData(w, h); buf = new Uint32Array(img.data.buffer); }
