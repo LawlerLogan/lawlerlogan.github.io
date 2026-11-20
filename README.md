@@ -5,6 +5,10 @@ Personal portfolio. Plain HTML, CSS and a little JavaScript, served by GitHub Pa
 ```
 index.html               home page (hero, about, projects, experience, skills, contact)
 projects/<name>/         one page per project
+projects/index.html      sends /projects/ to the Work section on the home page
+skills/index.html        skills page: tools per discipline and the projects that used them
+assets/img/share/        1200×630 link-preview images (og:image), one per page
+sitemap.xml, robots.txt  for search engines; update sitemap.xml when adding a page
 assets/css/site.css      all styles
 assets/js/site.js        smooth linked scrolling between projects and skills
 assets/fonts/            STIX Two Text + Martian Mono (self-hosted, latin subset)

@@ -46,7 +46,6 @@
     const el = document.getElementById(decodeURIComponent(url.hash.slice(1)));
     if (!el) return;
     e.preventDefault();
-    history.pushState(null, "", url.hash);
     go(el);
   });
 
@@ -55,10 +54,14 @@
     el ? go(el) : scrollTo({ top: 0 });
   });
 
-  // Arriving from another page with a hash: land on it, then highlight.
+  // Arriving from another page with a hash: land on it, highlight it, then drop the # from the address.
   if (location.hash) {
-    const el = document.getElementById(location.hash.slice(1));
-    if (el && el.matches(".proj, .skill")) addEventListener("load", () => flash(el), { once: true });
+    const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    addEventListener("load", () => {
+      if (el && el.matches(".proj, .skill")) flash(el);
+      if (el && el.matches(".tools li")) el.classList.add("tool-flash");
+      history.replaceState(null, "", location.pathname + location.search);
+    }, { once: true });
   }
 
   // Hairline under the header once the page scrolls.
