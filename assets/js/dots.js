@@ -407,7 +407,7 @@
 
     const place = () => {
       const hero = cv.closest(".hero");
-      if (hero) { cv.removeAttribute("style"); delete cv.dataset.fit; return; } // home: original placement, unchanged
+      if (hero) { cv.removeAttribute("style"); delete cv.dataset.fit; if (innerWidth < 760) cv.dataset.fit = "2"; return; } // home: original placement; on phones the jet fills its area
       const pg = cv.closest(".pg-hero");
       if (pg) {
         if (innerWidth < 760) {
@@ -415,8 +415,12 @@
           cv.removeAttribute("style"); delete cv.dataset.fit;
           const t1 = pg.querySelector("h1"), tr = t1.getBoundingClientRect();
           const lh = parseFloat(getComputedStyle(t1).lineHeight) || tr.height / 3;
-          cv.style.top = Math.round(tr.top - pg.getBoundingClientRect().top) + "px";
-          cv.style.height = Math.round(Math.max(lh * 2, Math.min(tr.height, lh * 3))) + "px";
+          // from the "All work" link (its right side is empty) down to the end of the title
+          const bk = pg.querySelector(".back"), top0 = bk ? bk.getBoundingClientRect().top : tr.top;
+          const bottom = tr.top + Math.max(lh * 2, Math.min(tr.height, lh * 4));
+          cv.style.top = Math.round(top0 - pg.getBoundingClientRect().top) + "px";
+          cv.style.height = Math.round(bottom - top0) + "px";
+          cv.dataset.fit = "2"; // fill the area exactly (largest size that never clips)
           return;
         }
         const R = pg.getBoundingClientRect(), col = pg.querySelector(".wrap").getBoundingClientRect();

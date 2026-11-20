@@ -48,6 +48,16 @@
 
   document.addEventListener("click", (e) => {
     if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    // the "All skills" link morphs into the Skills page heading, but only when that link is the one clicked;
+    // a single skill opens the page scrolled down, where that heading is off screen
+    // clear names left over from an earlier click (the page may come back from the back/forward cache)
+    document.querySelectorAll("a.to-skills, #h-skills, .skill-index__t").forEach((n) => (n.style.viewTransitionName = ""));
+    const toSkills = e.target.closest("a.to-skills");
+    // the "Skills" section heading (not the small link) grows into the Skills page heading
+    if (toSkills) { const head = document.getElementById("h-skills"); if (head) head.style.viewTransitionName = "t-skills"; }
+    // a single skill title grows into that skill's heading on the Skills page (only the clicked one)
+    const oneSkill = e.target.closest(".skill-index a");
+    if (oneSkill) { const key = new URL(oneSkill.href).hash.replace("#skill-", ""); const t = oneSkill.querySelector(".skill-index__t"); if (t && key) t.style.viewTransitionName = "t-skill-" + key; }
     const a = e.target.closest('a[href*="#"]');
     if (!a) return;
     const url = new URL(a.href);
@@ -63,16 +73,30 @@
     el ? go(el) : scrollTo({ top: 0 });
   });
 
-  // Arriving from another page with a hash: land on it, highlight it, then drop the # from the address.
+  // Arriving from another page with a hash: put the target in place before the page is first drawn,
+  // in one move (no browser jump followed by a correction), then highlight it.
   if (location.hash) {
     const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    addEventListener("load", () => {
-      if (el && !el.matches(".tools li")) scrollTo(0, targetY(el));
-      if (el && el.matches(".proj, .skill")) flash(el);
-      if (el && el.matches(".tools li")) el.classList.add("tool-flash");
-      history.replaceState(null, "", location.pathname + location.search);
-    }, { once: true });
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    // dropping the # now stops the browser's own jump to it when the page finishes loading
+    history.replaceState(null, "", location.pathname + location.search);
+    if (el) {
+      const land = () => el.matches(".tools li") ? el.scrollIntoView({ block: "start" }) : scrollTo(0, targetY(el));
+      land();
+      let moved = false;
+      const mark = () => (moved = true);
+      ["wheel", "touchstart", "keydown"].forEach((ev) => addEventListener(ev, mark, { passive: true, once: true }));
+      // fonts and images can shift things slightly: settle once more, unless the reader has already scrolled
+      const settle = () => { if (!moved) land(); };
+      if (document.fonts) document.fonts.ready.then(settle);
+      addEventListener("load", () => {
+        settle();
+        if (el.matches(".proj, .skill")) flash(el);
+        if (el.matches(".tools li")) el.classList.add("tool-flash");
+      }, { once: true });
+    }
   }
+
 
   // Hairline under the header once the page scrolls.
   if (hd) {

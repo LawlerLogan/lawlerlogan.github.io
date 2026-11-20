@@ -515,3 +515,10 @@ img, video { -webkit-user-drag: none; user-select: none; -webkit-user-select: no
 @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
   html { zoom: 0.8; }
 }
+
+/* Coming back to a section from another page (e.g. "All work"): show the page already in place,
+   without replaying the entrance animations, so it does not look like a full reload. */
+.arrived :is(.sec__head, .about > *, .proj, .xp li, .skill, .contact__big, .prose, .gallery > *, .next, .spec > div, .pg-media),
+.arrived :is(.tools, .used, .tags) > li { opacity: 1 !important; transform: none !important; transition: none !important; }
+.arrived .rise { animation: none !important; }
+.arrived .art { transition: none; }

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>document.documentElement.classList.add("js")</script>
+<script>document.documentElement.classList.add("js");if(location.hash)document.documentElement.classList.add("arrived")</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Skills · Logan Lawler</title>
 <meta name="description" content="Mechanical design and CAD, software, electronics and embedded systems, robotics and automation, and fabrication: the tools used in each and the projects that used them.">
@@ -25,10 +25,10 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/assets/fonts/stix-two-text.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v=20261121z">
-<script src="/assets/js/site.js?v=20261121z" defer></script>
-<script src="/assets/js/cursor.js?v=20261121z" defer></script>
-<script src="/assets/js/dots.js?v=20261121z" defer></script>
+<link rel="stylesheet" href="/assets/css/site.css?v=20261122h">
+<script src="/assets/js/site.js?v=20261122h" defer></script>
+<script src="/assets/js/cursor.js?v=20261122h" defer></script>
+<script src="/assets/js/dots.js?v=20261122h" defer></script>
 <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"selector_matches":"[target=_blank]"}}]},"eagerness":"moderate"}]}</script>
 </head>
 <body>
@@ -57,7 +57,7 @@
       <section class="skill skill--cad" id="skill-cad" aria-labelledby="h-cad">
         <div class="skill__head">
           <span class="skill__n mono">S1</span>
-          <h3 id="h-cad">Mechanical &amp; CAD</h3>
+          <h3 id="h-cad" style="view-transition-name:t-skill-cad">Mechanical &amp; CAD</h3>
           <p class="skill__d">Parametric parts and assemblies designed to be built, from first sketch through engineering drawings, tolerances, and fabrication.</p>
         </div>
         <div>
@@ -72,7 +72,7 @@
       <section class="skill skill--software" id="skill-software" aria-labelledby="h-software">
         <div class="skill__head">
           <span class="skill__n mono">S2</span>
-          <h3 id="h-software">Software</h3>
+          <h3 id="h-software" style="view-transition-name:t-skill-software">Software</h3>
           <p class="skill__d">Software in Python, C++, and Java, from data tools and automation to real-time control and interactive applications.</p>
         </div>
         <div>
@@ -87,7 +87,7 @@
       <section class="skill skill--electronics" id="skill-electronics" aria-labelledby="h-electronics">
         <div class="skill__head">
           <span class="skill__n mono">S3</span>
-          <h3 id="h-electronics">Electronics &amp; Embedded</h3>
+          <h3 id="h-electronics" style="view-transition-name:t-skill-electronics">Electronics &amp; Embedded</h3>
           <p class="skill__d">Circuits from schematic to finished board: PCB layout, microcontroller firmware, sensors, and hand-soldered assembly.</p>
         </div>
         <div>
@@ -102,7 +102,7 @@
       <section class="skill skill--robotics" id="skill-robotics" aria-labelledby="h-robotics">
         <div class="skill__head">
           <span class="skill__n mono">S4</span>
-          <h3 id="h-robotics">Robotics &amp; Automation</h3>
+          <h3 id="h-robotics" style="view-transition-name:t-skill-robotics">Robotics &amp; Automation</h3>
           <p class="skill__d">Industrial robot programming and PLC control, from I/O wiring and sensing to ladder logic and cell documentation.</p>
         </div>
         <div>
@@ -118,7 +118,7 @@
       <section class="skill skill--fabrication" id="skill-fabrication" aria-labelledby="h-fabrication">
         <div class="skill__head">
           <span class="skill__n mono">S5</span>
-          <h3 id="h-fabrication">Fabrication</h3>
+          <h3 id="h-fabrication" style="view-transition-name:t-skill-fabrication">Fabrication</h3>
           <p class="skill__d">Turning designs into physical hardware through 3D printing, prototyping, assembly, wiring, and testing.</p>
         </div>
         <div>
