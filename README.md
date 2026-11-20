@@ -7,7 +7,7 @@ index.html               home page (hero, about, projects, experience, skills, c
 projects/<name>/         one page per project
 projects/index.html      sends /projects/ to the Work section on the home page
 skills/index.html        skills page: tools per discipline and the projects that used them
-assets/img/share/        1200×630 link-preview images (og:image), one per page
+assets/img/share/icon.png  600×600 [L] monogram used as the link-preview image (og:image) on every page
 sitemap.xml, robots.txt  for search engines; update sitemap.xml when adding a page
 assets/css/site.css      all styles
 assets/js/site.js        smooth linked scrolling between projects and skills
@@ -24,7 +24,7 @@ source-images/<project>/  full-size originals (not published)
 3. Reference it with width/height set to the real pixel size to avoid layout shift:
 
 ```html
-<img class="media" src="/assets/img/uav-800.webp" width="800" height="533" alt="..." loading="lazy" decoding="async">
+<img class="media" src="/assets/img/uav-photo-800.webp" width="800" height="533" alt="..." loading="lazy" decoding="async">
 ```
 
 ## Preview locally

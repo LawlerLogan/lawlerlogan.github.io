@@ -501,3 +501,11 @@ img, video { -webkit-user-drag: none; user-select: none; -webkit-user-select: no
 .brand:hover .brand__logo { opacity: 0.7; }
 .brand--tall .brand__logo { height: 1.15em; vertical-align: -0.38em; } /* two-line logo: tall enough that the small line stays readable */
 @media (pointer: coarse) { .brand { padding: 10px 0; margin: -10px 0; } }
+
+/* Phones: the company sits on its own line under the role (logo or text alike) */
+@media (max-width: 640px) {
+  .xp h3 .xp__org { display: block; margin-top: 6px; font-size: 0.82em; }
+  .xp__sep { display: none; }
+  .xp__org .brand__logo { vertical-align: middle; }
+  .xp__org .brand--tall .brand__logo { height: 1.5em; }
+}
