@@ -220,7 +220,8 @@
   const rnd = () => { seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
   const gauss = () => (rnd() + rnd() + rnd() - 1.5) * 0.8;
 
-  function build(name, n) {
+  // seeded = the fixed reference cloud (used only to size and place the shape); otherwise a fresh random cloud
+  function build(name, n, seeded) {
     const c = document.createElement("canvas");
     c.width = c.height = 400;
     const g = c.getContext("2d");
@@ -230,20 +231,21 @@
     const filled = [];
     for (let i = 0; i < 160000; i += 2) if (a[i * 4 + 3] > 140) filled.push(i);
     const pts = new Float32Array(n * 3), col = new Uint8Array(n);
-    seed = [...String(name)].reduce((s, ch) => (Math.imul(s, 31) + ch.charCodeAt(0)) | 0, 7) + n;
-    const k1 = 1.6 + rnd(), k2 = 2.2 + rnd(), ph = rnd() * 6;
+    if (seeded) seed = [...String(name)].reduce((s, ch) => (Math.imul(s, 31) + ch.charCodeAt(0)) | 0, 7) + n;
+    const R = seeded ? rnd : Math.random, gs = () => (R() + R() + R() - 1.5) * 0.8;
+    const k1 = 1.6 + R(), k2 = 2.2 + R(), ph = R() * 6;
     for (let i = 0; i < n; i++) {
-      const p = filled[(rnd() * filled.length) | 0];
-      const X = ((p % 400) + rnd() * 2 - 200) / 200;
-      const Z = (200 - ((p / 400) | 0) - rnd()) / 200;
+      const p = filled[(R() * filled.length) | 0];
+      const X = ((p % 400) + R() * 2 - 200) / 200;
+      const Z = (200 - ((p / 400) | 0) - R()) / 200;
       // depth: a smooth wave plus scatter, so side-on it is a rippled cloud
-      const stray = rnd() < 0.08;
-      const Y = 0.42 * Math.sin(k1 * X + ph) + 0.3 * Math.cos(k2 * Z - ph) + gauss() * (stray ? 0.55 : 0.22);
-      pts[i * 3] = X + (stray ? gauss() * 0.04 : 0);
+      const stray = R() < 0.08;
+      const Y = 0.42 * Math.sin(k1 * X + ph) + 0.3 * Math.cos(k2 * Z - ph) + gs() * (stray ? 0.55 : 0.22);
+      pts[i * 3] = X + (stray ? gs() * 0.04 : 0);
       pts[i * 3 + 1] = Y;
-      pts[i * 3 + 2] = Z + (stray ? gauss() * 0.04 : 0);
+      pts[i * 3 + 2] = Z + (stray ? gs() * 0.04 : 0);
       const t = (Y + 0.9) / 1.8;
-      col[i] = Math.max(0, Math.min(COLORS.length - 1, Math.floor(t * COLORS.length + gauss() * 0.8)));
+      col[i] = Math.max(0, Math.min(COLORS.length - 1, Math.floor(t * COLORS.length + gs() * 0.8)));
     }
     return { pts, col, n };
   }
@@ -271,24 +273,31 @@
   const start = (cv) => {
     const ctx = cv.getContext("2d");
     const dpr = Math.min(1.5, devicePixelRatio || 1);
-    const data = build(cv.dataset.shape, innerWidth < 760 ? 6000 : 11000);
-    // true reach of this shape: widest horizontally at any yaw, tallest at any tilt
+    const N = innerWidth < 760 ? 6000 : 11000;
+    const ref = build(cv.dataset.shape, N, true);   // fixed: decides size and position, identical every load
+    const data = build(cv.dataset.shape, N, false); // random: the colours and depth wave you see, new every load
+    // Size and placement come from the fixed reference cloud, so they are identical on every load.
     let rH = 0, rV = 0;
-    for (let i = 0; i < data.n; i++) { const x = data.pts[i * 3], y = data.pts[i * 3 + 1], z = data.pts[i * 3 + 2]; rH = Math.max(rH, Math.hypot(x, y)); rV = Math.max(rV, Math.hypot(x, y, z)); } // tilt mixes all three axes into screen height
-    // Exact screen footprint over a full turn (same yaw/tilt maths as draw), so the shape can fill its box
-    // as large as possible without any part ever leaving it.
+    for (let i = 0; i < ref.n; i++) { const x = ref.pts[i * 3], y = ref.pts[i * 3 + 1], z = ref.pts[i * 3 + 2]; rH = Math.max(rH, Math.hypot(x, y)); rV = Math.max(rV, Math.hypot(x, y, z)); }
     const front = { x0: 0, x1: 0, z0: 0, z1: 0 };
-    for (let i = 0; i < data.n; i++) { const x = data.pts[i * 3], z = data.pts[i * 3 + 2]; front.x0 = Math.min(front.x0, x); front.x1 = Math.max(front.x1, x); front.z0 = Math.min(front.z0, z); front.z1 = Math.max(front.z1, z); }
+    for (let i = 0; i < ref.n; i++) { const x = ref.pts[i * 3], z = ref.pts[i * 3 + 2]; front.x0 = Math.min(front.x0, x); front.x1 = Math.max(front.x1, x); front.z0 = Math.min(front.z0, z); front.z1 = Math.max(front.z1, z); }
+    // Exact screen footprint over a full turn (same yaw/tilt maths as draw).
+    const ANG = [];
+    for (let k = 0; k < 96; k++) { const a = (k / 96) * Math.PI * 2, tl = 0.32 * Math.sin(a / 2) ** 2; ANG.push([Math.cos(a), Math.sin(a), Math.cos(tl), Math.sin(tl)]); }
     const reach = { x0: 0, x1: 0, z0: 0, z1: 0 };
-    for (let k = 0; k < 96; k++) {
-      const a = (k / 96) * Math.PI * 2, tl = 0.32 * Math.sin(a / 2) ** 2;
-      const ca = Math.cos(a), sa = Math.sin(a), ct = Math.cos(tl), stl = Math.sin(tl);
-      for (let i = 0; i < data.n; i++) {
-        const x = data.pts[i * 3], y = data.pts[i * 3 + 1], z = data.pts[i * 3 + 2];
-        const x1 = x * ca - y * sa, z2 = (x * sa + y * ca) * stl + z * ct;
-        if (x1 < reach.x0) reach.x0 = x1; if (x1 > reach.x1) reach.x1 = x1;
-        if (z2 < reach.z0) reach.z0 = z2; if (z2 > reach.z1) reach.z1 = z2;
-      }
+    for (const [ca, sa, ct, stl] of ANG) for (let i = 0; i < ref.n; i++) {
+      const x = ref.pts[i * 3], y = ref.pts[i * 3 + 1], z = ref.pts[i * 3 + 2];
+      const x1 = x * ca - y * sa, z2 = (x * sa + y * ca) * stl + z * ct;
+      if (x1 < reach.x0) reach.x0 = x1; if (x1 > reach.x1) reach.x1 = x1;
+      if (z2 < reach.z0) reach.z0 = z2; if (z2 > reach.z1) reach.z1 = z2;
+    }
+    // Keep the random cloud inside that footprint: a dot that would poke out at some angle has its depth
+    // eased toward the middle (and, rarely, is nudged inward), so nothing is ever clipped.
+    const inside = (x, y, z) => { for (const [ca, sa, ct, stl] of ANG) { const x1 = x * ca - y * sa, z2 = (x * sa + y * ca) * stl + z * ct; if (x1 < reach.x0 || x1 > reach.x1 || z2 < reach.z0 || z2 > reach.z1) return false; } return true; };
+    for (let i = 0; i < data.n; i++) {
+      let x = data.pts[i * 3], y = data.pts[i * 3 + 1], z = data.pts[i * 3 + 2], g = 0;
+      while (!inside(x, y, z) && g++ < 40) { if (Math.abs(y) > 0.02) y *= 0.85; else { x *= 0.97; z *= 0.97; } }
+      data.pts[i * 3] = x; data.pts[i * 3 + 1] = y; data.pts[i * 3 + 2] = z;
     }
     let st = stamps(dpr);
     const cx = parseFloat(cv.dataset.cx || "0.5");
